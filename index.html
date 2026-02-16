@@ -3,45 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Arifulcom Travel Pro</title>
+    <title>Arifulcom Travel Pro - Best Passport MRZ Generator</title>
+    
     <style>
         body { font-family: Arial, sans-serif; background: #f4f4f4; padding: 20px; display: flex; justify-content: center; }
         .main-card { width: 100%; max-width: 850px; background: #fff; border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1); overflow: hidden; }
         
-        /* আপনার নামসহ হেডার */
         .header { background: #1a1a1a; color: white; padding: 15px; text-align: center; border-bottom: 3px solid #007bff; }
         .header h2 { margin: 0; font-size: 22px; }
 
         .form-content { padding: 20px; }
         
-        /* ৮টি ঘর ২ লাইনে সাজানো */
         .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 20px; }
         @media (max-width: 600px) { .grid { grid-template-columns: 1fr 1fr; } }
         
         label { font-size: 11px; font-weight: bold; color: #333; display: block; margin-bottom: 2px; text-transform: uppercase; }
         input, select { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; font-size: 13px; }
 
-        /* কালো ফলাফল বক্স - সরাসরি ২ লাইন দেখাবে */
         #result-box { 
-            background: #000; 
-            color: #00ff00; 
-            font-family: 'Courier New', monospace; 
-            padding: 20px; 
-            margin-top: 10px; 
-            border-radius: 4px; 
-            min-height: 50px; 
-            text-align: center; 
-            font-size: 18px; 
-            line-height: 1.5; 
-            letter-spacing: 2px;
+            background: #000; color: #00ff00; font-family: 'Courier New', monospace; 
+            padding: 20px; margin-top: 10px; border-radius: 4px; min-height: 50px; 
+            text-align: center; font-size: 18px; line-height: 1.5; letter-spacing: 2px;
             white-space: pre-line;
         }
         
-        /* নীল কপি বাটন */
         .copy-btn { width: 100%; padding: 15px; background: #007bff; color: white; border: none; cursor: pointer; font-weight: bold; font-size: 16px; margin-top: 10px; }
         .copy-btn:hover { background: #0056b3; }
 
-        .support { text-align: center; padding: 15px; background: #fffbe6; font-size: 13px; border-top: 1px solid #ddd; }
+        .support-section { text-align: center; padding: 20px; background: #fffbe6; border-top: 1px solid #ddd; }
+        .pay-btn { display: inline-block; background: #e2136e; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-weight: bold; margin-top: 10px; }
+        .wa-btn { color: green; font-weight: bold; text-decoration: none; margin-left: 10px; }
     </style>
 </head>
 <body>
@@ -53,57 +44,62 @@
 
     <div class="form-content">
         <div class="grid">
-            <div><label>COUNTRY (BGD)</label><input type="text" id="c" value="BGD" oninput="mrz()"></div>
-            <div><label>PASSPORT NO</label><input type="text" id="n" placeholder="A12345678" oninput="mrz()"></div>
-            <div><label>SURNAME</label><input type="text" id="s" placeholder="ISLAM" oninput="mrz()"></div>
-            <div><label>GIVEN NAME</label><input type="text" id="g" placeholder="ARIFUL" oninput="mrz()"></div>
-            <div><label>BIRTH (YYMMDD)</label><input type="text" id="d" placeholder="950101" oninput="mrz()"></div>
-            <div><label>EXPIRY (YYMMDD)</label><input type="text" id="e" placeholder="301231" oninput="mrz()"></div>
+            <div><label>COUNTRY (BGD)</label><input type="text" id="c" value="BGD" onkeyup="mrz()"></div>
+            <div><label>PASSPORT NO</label><input type="text" id="n" placeholder="A12345678" onkeyup="mrz()"></div>
+            <div><label>SURNAME</label><input type="text" id="s" placeholder="ISLAM" onkeyup="mrz()"></div>
+            <div><label>GIVEN NAME</label><input type="text" id="g" placeholder="ARIFUL" onkeyup="mrz()"></div>
+            <div><label>BIRTH (YYMMDD)</label><input type="text" id="d" placeholder="950101" onkeyup="mrz()"></div>
+            <div><label>EXPIRY (YYMMDD)</label><input type="text" id="e" placeholder="301231" onkeyup="mrz()"></div>
             <div><label>SEX</label>
                 <select id="x" onchange="mrz()">
                     <option value="M">Male (M)</option>
                     <option value="F">Female (F)</option>
                 </select>
             </div>
-            <div><label>PERSONAL NO</label><input type="text" id="p" placeholder="NID/PN" oninput="mrz()"></div>
+            <div><label>PERSONAL NO</label><input type="text" id="p" placeholder="NID/PN" onkeyup="mrz()"></div>
         </div>
 
         <div id="result-box"></div>
-        <button class="copy-btn" onclick="copy()">কপি রেজাল্ট</button>
+        <button class="copy-btn" onclick="copy()">📋 কপি রেজাল্ট</button>
     </div>
 
-    <div class="support">
-        আমাদের সেবা ভালো লাগলে সাপোর্ট করুন 🤝<br>
-        <a href="https://wa.me/8801572494460" style="color:green; font-weight:bold; text-decoration:none;">WhatsApp Support</a>
+    <div class="support-section">
+        <p style="margin:0; font-weight:bold;">আমাদের সেবাটি ভালো লাগলে পাশে থাকুন 🤝</p>
+        <p style="font-size: 12px; color: #555;">বিকাশ/নগদ সাপোর্ট: <strong>+8801572494460</strong></p>
+        <a href="tel:+8801572494460" class="pay-btn">সরাসরি কল দিন</a>
+        <a href="https://wa.me/8801572494460" class="wa-btn">WhatsApp Support</a>
     </div>
 </div>
 
 <script>
     function mrz() {
-        var c = (document.getElementById('c').value || 'BGD').toUpperCase();
+        // প্রতিটি ইনপুট থেকে ডাটা নেওয়া
+        var c = (document.getElementById('c').value || '').toUpperCase();
         var n = (document.getElementById('n').value || '').toUpperCase();
         var s = (document.getElementById('s').value || '').toUpperCase();
         var g = (document.getElementById('g').value || '').toUpperCase();
-        var d = document.getElementById('d').value || '000000';
-        var e = document.getElementById('e').value || '000000';
+        var d = document.getElementById('d').value || '';
+        var e = document.getElementById('e').value || '';
         var x = document.getElementById('x').value;
         var p = (document.getElementById('p').value || '').toUpperCase();
 
-        // Line 1 Generation
+        // Line 1: P<CODE(SURNAME)<<(GIVEN NAME)
         var l1 = "P<" + c + s + "<<" + g;
         while(l1.length < 44) l1 += "<";
         l1 = l1.substring(0, 44);
 
-        // Line 2 Generation
+        // Line 2: (PassportNo)<(Code)(DOB)(Sex)(Expiry)(PersonalNo)
         var l2 = n + "<" + c + d + x + e + p;
         while(l2.length < 44) l2 += "<";
         l2 = l2.substring(0, 44);
 
+        // সরাসরি কালো বক্সে লেখা দেখানো
         document.getElementById('result-box').innerText = l1 + "\n" + l2;
     }
 
     function copy() {
         var text = document.getElementById('result-box').innerText;
+        if(!text) return;
         var temp = document.createElement("textarea");
         document.body.appendChild(temp);
         temp.value = text;
@@ -113,7 +109,7 @@
         alert("সফলভাবে কপি হয়েছে! ✅");
     }
 
-    // পেজ লোড হলে একবার চালু হবে
+    // পেজ লোড হওয়ার সাথে সাথে একবার রান হবে
     window.onload = mrz;
 </script>
 

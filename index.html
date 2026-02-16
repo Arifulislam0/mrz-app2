@@ -3,136 +3,137 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Global MRZ Generator Pro</title>
+    <title>Ariful Travel Pro - MRZ Generator</title>
     <style>
-        :root { --primary: #007bff; --bg: #f8f9fa; --dark: #212529; --neon: #00ff00; }
-        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: var(--bg); margin: 0; padding: 20px; }
-        .main-card { max-width: 900px; margin: auto; background: white; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); overflow: hidden; border: 1px solid #ddd; }
+        :root { --blue: #007bff; --dark: #1a1a1a; --neon: #00ff00; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; background: #f4f7f9; margin: 0; padding: 15px; display: flex; justify-content: center; }
+        .container { width: 100%; max-width: 900px; background: #fff; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); overflow: hidden; }
         
-        /* বিদেশি স্টাইল হেডার */
-        .top-header { background: var(--dark); color: white; padding: 20px; text-align: center; border-bottom: 4px solid var(--primary); }
-        .top-header h2 { margin: 0; font-size: 24px; letter-spacing: 1px; }
-        .top-header p { margin: 5px 0 0; font-size: 13px; color: #bbb; }
+        /* হেডার সেকশন - আপনার নামসহ */
+        .header { background: var(--dark); color: white; padding: 25px; text-align: center; border-bottom: 4px solid var(--blue); }
+        .header h1 { margin: 0; font-size: 28px; letter-spacing: 1px; }
+        .header p { margin: 5px 0 0; font-size: 14px; color: #aaa; }
 
-        .form-section { padding: 25px; }
-        
-        /* ৮টি ঘর ২ লাইনে সাজানো */
-        .grid-container { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-bottom: 25px; }
-        @media (max-width: 768px) { .grid-container { grid-template-columns: repeat(2, 1fr); } }
-        
-        .input-group label { display: block; font-size: 11px; font-weight: bold; color: #555; text-transform: uppercase; margin-bottom: 5px; }
-        input, select { width: 100%; padding: 12px; border: 1px solid #ced4da; border-radius: 6px; font-size: 14px; background: #fff; transition: 0.3s; box-sizing: border-box; }
-        input:focus { border-color: var(--primary); box-shadow: 0 0 8px rgba(0,123,255,0.2); outline: none; }
+        .form-body { padding: 25px; }
 
-        /* রেজাল্ট বক্স - কোনো বাড়তি টেক্সট ছাড়া */
-        .mrz-wrapper { background: #111; padding: 30px; border-radius: 10px; margin-top: 10px; position: relative; border: 2px solid #333; }
-        #mrz-display { color: var(--neon); font-family: 'Courier New', Courier, monospace; font-size: 20px; line-height: 1.5; letter-spacing: 3px; text-align: center; word-break: break-all; min-height: 60px; }
-        
-        /* কপি বাটন */
-        .copy-btn { width: 100%; padding: 18px; background: var(--primary); color: white; border: none; font-size: 18px; font-weight: bold; cursor: pointer; transition: 0.3s; border-bottom-left-radius: 15px; border-bottom-right-radius: 15px; text-transform: uppercase; }
+        /* ৮টি ঘর ২ লাইনে সাজানো (প্রতি লাইনে ৪টি) */
+        .input-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-bottom: 25px; }
+        @media (max-width: 800px) { .input-grid { grid-template-columns: repeat(2, 1fr); } }
+
+        .field label { display: block; font-size: 11px; font-weight: bold; color: #666; text-transform: uppercase; margin-bottom: 5px; }
+        input, select { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; box-sizing: border-box; transition: 0.3s; }
+        input:focus { border-color: var(--blue); outline: none; box-shadow: 0 0 8px rgba(0,123,255,0.2); }
+
+        /* ফলাফল বক্স - যেখানে ২ লাইন আসবে */
+        .mrz-result-container { background: #000; padding: 25px; border-radius: 8px; border: 2px solid #333; margin-top: 10px; }
+        #mrz-output { color: var(--neon); font-family: 'Courier New', monospace; font-size: 20px; line-height: 1.6; letter-spacing: 3px; text-align: center; word-break: break-all; min-height: 64px; white-space: pre-line; }
+
+        /* নীল কপি বাটন */
+        .copy-btn { width: 100%; padding: 18px; background: var(--blue); color: white; border: none; font-size: 18px; font-weight: bold; cursor: pointer; text-transform: uppercase; transition: 0.3s; }
         .copy-btn:hover { background: #0056b3; }
 
-        /* সাপোর্ট সেকশন */
-        .footer-info { padding: 20px; text-align: center; background: #fffdf5; border-top: 1px solid #eee; }
-        .footer-info p { font-size: 14px; color: #666; margin-bottom: 10px; }
-        .wa-link { color: #25D366; text-decoration: none; font-weight: bold; border: 2px solid #25D366; padding: 8px 20px; border-radius: 20px; transition: 0.3s; }
-        .wa-link:hover { background: #25D366; color: white; }
+        /* সাপোর্ট কার্ড */
+        .footer-support { padding: 20px; text-align: center; background: #fff9e6; border-top: 1px solid #eee; }
+        .wa-btn { color: #25D366; text-decoration: none; font-weight: bold; border: 2px solid #25D366; padding: 8px 25px; border-radius: 30px; display: inline-block; margin-top: 10px; transition: 0.3s; }
+        .wa-btn:hover { background: #25D366; color: white; }
     </style>
 </head>
 <body>
 
-<div class="main-card">
-    <div class="top-header">
-        <h2>GLOBAL PASSPORT MRZ GENERATOR</h2>
-        <p>Official Standard ICAO Doc 9303 Compliant Tool</p>
+<div class="container">
+    <div class="header">
+        <h1>ARIUL TRAVEL PRO</h1>
+        <p>International Passport MRZ Generating System</p>
     </div>
 
-    <div class="form-section">
-        <div class="grid-container">
-            <div class="input-group">
+    <div class="form-body">
+        <div class="input-grid">
+            <div class="field">
                 <label>Country Code</label>
-                <input type="text" id="c" value="BGD" maxlength="3" oninput="run()">
+                <input type="text" id="cnt" value="BGD" maxlength="3" oninput="update()">
             </div>
-            <div class="input-group">
+            <div class="field">
                 <label>Passport No</label>
-                <input type="text" id="n" placeholder="A12345678" oninput="run()">
+                <input type="text" id="pno" placeholder="A12345678" oninput="update()">
             </div>
-            <div class="input-group">
+            <div class="field">
                 <label>Surname</label>
-                <input type="text" id="s" placeholder="ISLAM" oninput="run()">
+                <input type="text" id="snm" placeholder="ISLAM" oninput="update()">
             </div>
-            <div class="input-group">
+            <div class="field">
                 <label>Given Name</label>
-                <input type="text" id="g" placeholder="ARIFUL" oninput="run()">
+                <input type="text" id="gnm" placeholder="ARIFUL" oninput="update()">
             </div>
-            <div class="input-group">
+            <div class="field">
                 <label>Birth Date (YYMMDD)</label>
-                <input type="text" id="d" placeholder="950520" oninput="run()">
+                <input type="text" id="dob" placeholder="950520" oninput="update()">
             </div>
-            <div class="input-group">
+            <div class="field">
                 <label>Sex</label>
-                <select id="x" onchange="run()">
+                <select id="sex" onchange="update()">
                     <option value="M">Male (M)</option>
                     <option value="F">Female (F)</option>
                 </select>
             </div>
-            <div class="input-group">
+            <div class="field">
                 <label>Expiry Date (YYMMDD)</label>
-                <input type="text" id="e" placeholder="350520" oninput="run()">
+                <input type="text" id="exp" placeholder="350520" oninput="update()">
             </div>
-            <div class="input-group">
+            <div class="field">
                 <label>Personal/NID No</label>
-                <input type="text" id="p" placeholder="123456789" oninput="run()">
+                <input type="text" id="nid" placeholder="123456789" oninput="update()">
             </div>
         </div>
 
-        <div class="mrz-wrapper">
-            <div id="mrz-display"></div>
+        <div class="mrz-result-container">
+            <div id="mrz-output"></div>
         </div>
     </div>
 
-    <button class="copy-btn" onclick="copy()">Copy Result to Clipboard</button>
+    <button class="copy-btn" onclick="copyMRZ()">📋 Copy MRZ Result</button>
 
-    <div class="footer-info">
-        <p>Reliable MRZ processing for travel documents. Need help?</p>
-        <a href="https://wa.me/8801572494460" class="wa-link" target="_blank">Contact Official Support</a>
+    <div class="footer-support">
+        <p style="margin:0; font-size:14px; color:#555;">সাপোর্ট নম্বর: +8801572494460 | আপনার পাশে সবসময়</p>
+        <a href="https://wa.me/8801572494460" class="wa-btn" target="_blank">WhatsApp Support</a>
     </div>
 </div>
 
 <script>
-    function run() {
-        // ডাটা সংগ্রহ
-        let c = (document.getElementById('c').value || 'BGD').toUpperCase();
-        let n = (document.getElementById('n').value || '').toUpperCase();
-        let s = (document.getElementById('s').value || '').toUpperCase();
-        let g = (document.getElementById('g').value || '').toUpperCase();
-        let d = document.getElementById('d').value || '000000';
-        let x = document.getElementById('x').value;
-        let e = document.getElementById('e').value || '000000';
-        let p = (document.getElementById('p').value || '').toUpperCase();
+    function update() {
+        // তথ্য সংগ্রহ
+        let c = (document.getElementById('cnt').value || 'BGD').toUpperCase();
+        let n = (document.getElementById('pno').value || '').toUpperCase();
+        let s = (document.getElementById('snm').value || '').toUpperCase();
+        let g = (document.getElementById('gnm').value || '').toUpperCase();
+        let d = document.getElementById('dob').value || '000000';
+        let x = document.getElementById('sex').value;
+        let e = document.getElementById('exp').value || '000000';
+        let p = (document.getElementById('nid').value || '').toUpperCase();
 
-        // MRZ তৈরির লজিক (ICAO Standard)
+        // MRZ তৈরির সঠিক লজিক (ICAO Standard)
         let line1 = P<${c}${s}<<${g}.padEnd(44, '<').substring(0, 44);
         let line2 = ${n}<${c}${d}${x}${e}${p}${'<<<<<<<<<<<<<<<<<<<<'}.substring(0, 44);
 
-        // সরাসরি ডিসপ্লেতে দেখানো
-        document.getElementById('mrz-display').innerText = line1 + "\n" + line2;
+        // সরাসরি কালো বক্সে লেখা পাঠানো
+        document.getElementById('mrz-output').innerText = line1 + "\n" + line2;
     }
 
-    function copy() {
-        const text = document.getElementById('mrz-display').innerText;
-        const el = document.createElement('textarea');
-        el.value = text;
-        document.body.appendChild(el);
-        el.select();
+    function copyMRZ() {
+        const text = document.getElementById('mrz-output').innerText;
+        if(!text) return;
+        
+        const area = document.createElement('textarea');
+        area.value = text;
+        document.body.appendChild(area);
+        area.select();
         document.execCommand('copy');
-        document.body.removeChild(el);
-        alert("MRZ Copied Successfully! ✅");
+        document.body.removeChild(area);
+        alert("MRZ Copied! ✅");
     }
 
-    // পেজ লোড হলে অটোমেটিক একবার রান হবে
-    window.onload = run;
+    // পেজ ওপেন হওয়ার সাথে সাথে রান হবে
+    window.onload = update;
 </script>
 
 </body>
-</html>
+</html

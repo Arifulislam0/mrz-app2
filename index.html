@@ -1,78 +1,83 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ariful Universal MRZ Generator</title>
+    <title>Ariful MRZ Generator</title>
     <style>
-        body { font-family: sans-serif; background: #f0f2f5; padding: 20px; display: flex; justify-content: center; }
-        .container { width: 100%; max-width: 800px; background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        .top-bar { background: #f8f9fa; padding: 10px; text-align: center; border: 1px solid #ddd; margin-bottom: 20px; font-weight: bold; }
-        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
-        label { font-size: 12px; font-weight: bold; display: block; margin-bottom: 5px; }
-        input, select { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
-        
-        /* কালো বক্স - আপনার স্ক্রিনশটের মতো */
-        .black-box { background: #000; color: #00ff00; font-family: monospace; padding: 20px; text-align: center; font-size: 18px; border-radius: 5px; min-height: 50px; margin-bottom: 10px; letter-spacing: 2px; }
-        
-        /* নীল বাটন */
-        .blue-btn { width: 100%; padding: 15px; background: #3498db; color: white; border: none; border-radius: 5px; font-size: 18px; font-weight: bold; cursor: pointer; }
+        body { font-family: Arial; padding: 20px; background: #eee; }
+        .box { background: white; padding: 20px; border: 1px solid #ccc; max-width: 600px; margin: auto; }
+        input, select { width: 95%; padding: 8px; margin: 5px 0; border: 1px solid #999; }
+        /* আপনার চাহিদামত কালো বক্স ও সবুজ লেখা */
+        #display { background: black; color: #00ff00; padding: 15px; font-family: monospace; font-size: 18px; margin: 15px 0; text-align: center; white-space: pre; border: 2px solid #333; }
+        button { width: 100%; padding: 12px; background: #007bff; color: white; border: none; font-weight: bold; cursor: pointer; }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <div class="top-bar">সাপোর্ট নম্বর: +8801572494460 | নির্ভুল MRZ তৈরির নির্ভরযোগ্য মাধ্যম</div>
-    <h2 style="text-align:center; color:#0056b3;">🚀 Ariful Universal MRZ Generator</h2>
+<div class="box">
+    <h3 style="text-align:center;">Ariful Travel Pro</h3>
+    
+    <label>দেশ কোড:</label><br>
+    <input type="text" id="c" value="BGD" onkeyup="m()">
+    
+    <label>পাসপোর্ট নম্বর:</label><br>
+    <input type="text" id="n" onkeyup="m()">
+    
+    <label>SURNAME:</label><br>
+    <input type="text" id="s" onkeyup="m()">
+    
+    <label>GIVEN NAME:</label><br>
+    <input type="text" id="g" onkeyup="m()">
+    
+    <label>জন্ম তারিখ (YYMMDD):</label><br>
+    <input type="text" id="d" placeholder="950520" onkeyup="m()">
+    
+    <label>লিঙ্গ:</label><br>
+    <select id="x" onchange="m()"><option value="M">Male</option><option value="F">Female</option></select>
+    
+    <label>মেয়াদ (YYMMDD):</label><br>
+    <input type="text" id="e" placeholder="350520" onkeyup="m()">
+    
+    <label>NID/Personal No:</label><br>
+    <input type="text" id="p" onkeyup="m()">
 
-    <div class="grid">
-        <div><label>দেশ কোড</label><input type="text" id="c" value="BGD" onkeyup="mrz()"></div>
-        <div><label>পাসপোর্ট নম্বর</label><input type="text" id="n" placeholder="A12345678" onkeyup="mrz()"></div>
-        <div><label>SURNAME</label><input type="text" id="s" placeholder="ISLAM" onkeyup="mrz()"></div>
-        <div><label>GIVEN NAME</label><input type="text" id="g" placeholder="ARIFUL" onkeyup="mrz()"></div>
-        <div><label>জন্ম তারিখ (YYMMDD)</label><input type="text" id="d" placeholder="950520" onkeyup="mrz()"></div>
-        <div><label>লিঙ্গ</label><select id="x" onchange="mrz()"><option value="M">Male</option><option value="F">Female</option></select></div>
-        <div><label>মেয়াদ (YYMMDD)</label><input type="text" id="e" placeholder="350520" onkeyup="mrz()"></div>
-        <div><label>NID নম্বর</label><input type="text" id="p" placeholder="123456789" onkeyup="mrz()"></div>
-    </div>
-
-    <div class="black-box" id="display">টাইপ করা শুরু করুন...</div>
-    <button class="blue-btn" onclick="copyText()">📋 কপি রেজাল্ট</button>
+    <div id="display">টাইপ করলে এখানে কোড আসবে...</div>
+    
+    <button onclick="cp()">কপি রেজাল্ট</button>
 </div>
 
 <script>
-    function mrz() {
-        // ইনপুট থেকে ডাটা নেয়া
-        var country = document.getElementById('c').value.toUpperCase() || 'BGD';
-        var pNo = document.getElementById('n').value.toUpperCase() || '';
-        var surname = document.getElementById('s').value.toUpperCase() || '';
-        var given = document.getElementById('g').value.toUpperCase() || '';
-        var dob = document.getElementById('d').value || '000000';
-        var exp = document.getElementById('e').value || '000000';
-        var sex = document.getElementById('x').value;
-        var nid = document.getElementById('p').value.toUpperCase() || '';
+function m() {
+    var c = document.getElementById('c').value.toUpperCase();
+    var n = document.getElementById('n').value.toUpperCase();
+    var s = document.getElementById('s').value.toUpperCase();
+    var g = document.getElementById('g').value.toUpperCase();
+    var d = document.getElementById('d').value;
+    var x = document.getElementById('x').value;
+    var e = document.getElementById('e').value;
+    var p = document.getElementById('p').value.toUpperCase();
 
-        // MRZ তৈরি করার লজিক
-        var line1 = ("P<" + country + surname + "<<" + given).padEnd(44, '<').substring(0, 44);
-        var line2 = (pNo + "<" + country + dob + sex + exp + nid).padEnd(44, '<').substring(0, 44);
+    // MRZ Logic (সব ব্রাউজারের জন্য সহজ ভার্সন)
+    var l1 = "P<" + c + s + "<<" + g;
+    while(l1.length < 44) l1 += "<";
+    l1 = l1.substring(0, 44);
 
-        // স্ক্রিনে দেখানো
-        document.getElementById('display').innerText = line1 + "\n" + line2;
-    }
+    var l2 = n + "<" + c + d + x + e + p;
+    while(l2.length < 44) l2 += "<";
+    l2 = l2.substring(0, 44);
 
-    function copyText() {
-        var text = document.getElementById('display').innerText;
-        var temp = document.createElement("textarea");
-        document.body.appendChild(temp);
-        temp.value = text;
-        temp.select();
-        document.execCommand("copy");
-        document.body.removeChild(temp);
-        alert("কপি হয়েছে! ✅");
-    }
-    
-    // পেজ খোলার সাথে সাথে একবার চালু হবে
-    window.onload = mrz;
+    document.getElementById('display').innerText = l1 + "\n" + l2;
+}
+
+function cp() {
+    var t = document.getElementById('display').innerText;
+    var i = document.createElement("textarea");
+    document.body.appendChild(i);
+    i.value = t;
+    i.select();
+    document.execCommand("copy");
+    document.body.removeChild(i);
+    alert("কপি হয়েছে!");
+}
 </script>
 
 </body>

@@ -3,108 +3,87 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Arifulcom Travel Pro</title>
+    <title>Arifulcom Speed Tool</title>
     <style>
-        :root { --primary: #007bff; --dark: #1a1a1a; --accent: #ffc107; --success: #28a745; }
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f4f7f6; margin: 0; padding: 0; }
-        .app-shell { max-width: 500px; margin: auto; background: #fff; min-height: 100vh; position: relative; box-shadow: 0 0 15px rgba(0,0,0,0.1); }
+        :root { --blue: #007bff; --dark: #1a1a1a; --success: #28a745; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; background: #eef2f5; margin: 0; padding: 10px; }
+        .wrapper { max-width: 700px; margin: auto; background: #fff; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); overflow: hidden; }
         
-        header { background: var(--dark); color: #fff; padding: 20px; text-align: center; border-bottom: 4px solid var(--primary); }
-        .form-container { padding: 20px; }
+        header { background: var(--dark); color: #fff; padding: 12px; text-align: center; border-bottom: 3px solid var(--blue); }
+        .main-form { padding: 15px; display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; }
         
-        .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
-        label { display: block; font-size: 11px; font-weight: bold; margin-bottom: 5px; color: #444; text-transform: uppercase; }
-        input, select { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 8px; font-size: 14px; box-sizing: border-box; transition: 0.3s; }
-        input:focus { border-color: var(--primary); outline: none; box-shadow: 0 0 5px rgba(0,123,255,0.2); }
+        .box { display: flex; flex-direction: column; }
+        label { font-size: 11px; font-weight: bold; margin-bottom: 3px; color: #555; }
+        input, select { padding: 8px; border: 1px solid #ccc; border-radius: 5px; font-size: 13px; outline: none; }
+        input:focus { border-color: var(--blue); }
 
-        .btn-gen { width: 100%; padding: 16px; background: var(--primary); color: #fff; border: none; border-radius: 12px; font-weight: bold; font-size: 16px; cursor: pointer; margin-top: 10px; }
+        .btn-row { padding: 0 15px 15px; }
+        .gen-btn { width: 100%; padding: 12px; background: var(--blue); color: #fff; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 15px; }
         
-        /* Result Box */
-        #result-box { margin-top: 25px; padding: 20px; background: #f9f9f9; border: 2px dashed var(--primary); border-radius: 12px; display: none; text-align: center; }
-        #mrz-output { font-family: 'Courier New', Courier, monospace; font-size: 17px; font-weight: bold; white-space: pre-wrap; word-break: break-all; color: #000; line-height: 1.8; letter-spacing: 2px; background: #eee; padding: 10px; border-radius: 5px; }
-        .btn-copy { width: 100%; padding: 14px; background: #343a40; color: #fff; border: none; border-radius: 10px; font-weight: bold; margin-top: 15px; cursor: pointer; }
+        #res-box { margin: 15px; padding: 15px; background: #f8f9fa; border: 2px dashed var(--blue); border-radius: 8px; display: none; text-align: center; }
+        #mrz-text { font-family: 'Courier New', monospace; font-size: 17px; font-weight: bold; background: #000; color: #00ff00; padding: 15px; border-radius: 5px; margin-bottom: 10px; letter-spacing: 2px; }
+        .copy-btn { width: 100%; padding: 10px; background: #333; color: #fff; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; }
 
-        /* Support Section */
-        .support-card { margin-top: 30px; padding: 20px; background: #fff9e6; border-radius: 12px; border-left: 5px solid var(--accent); text-align: center; }
-        .support-card h4 { margin: 0 0 10px 0; color: #856404; }
-        .support-card p { font-size: 13px; color: #666; line-height: 1.5; margin-bottom: 15px; }
-        .btn-wa { background: var(--success); color: white; text-decoration: none; padding: 10px 20px; border-radius: 25px; font-weight: bold; display: inline-block; font-size: 13px; }
+        .support { background: #fff9e6; padding: 15px; text-align: center; border-top: 1px solid #ffeeba; }
+        .wa-link { color: #fff; background: var(--success); text-decoration: none; padding: 8px 15px; border-radius: 20px; font-size: 12px; font-weight: bold; display: inline-block; margin-top: 5px; }
     </style>
 </head>
 <body>
 
-<div class="app-shell">
+<div class="wrapper">
     <header>
-        <h2 style="margin:0;">Arifulcom Travel Pro</h2>
-        <span style="font-size: 12px; color: var(--accent);">International Passport MRZ Generator</span>
+        <h3 style="margin:0;">Arifulcom Travel Pro</h3>
     </header>
 
-    <div class="form-container">
-        <div class="field-row">
-            <div><label>Country Code (BGD)</label><input type="text" id="p_code" value="BGD" maxlength="3"></div>
-            <div><label>Passport No</label><input type="text" id="p_no" placeholder="A01234567"></div>
+    <div class="main-form">
+        <div class="box"><label>COUNTRY (BGD)</label><input type="text" id="c_code" value="BGD"></div>
+        <div class="box"><label>PASSPORT NO</label><input type="text" id="p_no" placeholder="A0000000"></div>
+        <div class="box"><label>SURNAME</label><input type="text" id="p_sn" placeholder="ISLAM"></div>
+        <div class="box"><label>GIVEN NAME</label><input type="text" id="p_gn" placeholder="ARIFUL"></div>
+        <div class="box"><label>BIRTH (YYMMDD)</label><input type="text" id="p_dob" placeholder="950101"></div>
+        <div class="box"><label>EXPIRY (YYMMDD)</label><input type="text" id="p_exp" placeholder="301231"></div>
+        <div class="box"><label>SEX</label>
+            <select id="p_sex"><option value="M">Male</option><option value="F">Female</option></select>
         </div>
+        <div class="box"><label>PERSONAL NO</label><input type="text" id="p_pn" placeholder="NID/PN"></div>
+    </div>
 
-        <div class="field-row">
-            <div><label>Surname (পদবী)</label><input type="text" id="p_sn" placeholder="ISLAM"></div>
-            <div><label>Given Name (নাম)</label><input type="text" id="p_gn" placeholder="ARIFUL"></div>
-        </div>
+    <div class="btn-row">
+        <button class="gen-btn" onclick="gen()">GENERATE MRZ NOW</button>
+    </div>
 
-        <div class="field-row">
-            <div><label>Birth Date (YYMMDD)</label><input type="text" id="p_dob" placeholder="950101"></div>
-            <div><label>Expiry Date (YYMMDD)</label><input type="text" id="p_exp" placeholder="301231"></div>
-        </div>
+    <div id="res-box">
+        <div id="mrz-text"></div>
+        <button class="copy-btn" onclick="copy()">📋 CLICK TO COPY MRZ</button>
+    </div>
 
-        <div class="field-row">
-            <div><label>Sex (লিঙ্গ)</label>
-                <select id="p_sex"><option value="M">Male (M)</option><option value="F">Female (F)</option></select>
-            </div>
-            <div><label>Personal No / NID</label><input type="text" id="p_pn" placeholder="1234567890"></div>
-        </div>
-
-        <button class="btn-gen" onclick="generateMRZ()">GENERATE PASSPORT MRZ</button>
-
-        <div id="result-box">
-            <div id="mrz-output"></div>
-            <button class="btn-copy" onclick="copyMRZ()">📋 CLICK TO COPY MRZ</button>
-        </div>
-
-        <div class="support-card">
-            <h4>প্রিয় ইউজার, আমরা আপনার পাশে! 🤝</h4>
-            <p>আপনার ট্রাভেল ডকুমেন্টগুলো নির্ভুলভাবে প্রসেস করার জন্য আমাদের এই টুলটি তৈরি করা হয়েছে। আমাদের সেবা যদি আপনার ভালো লেগে থাকে এবং আপনি যদি কোনো সমস্যায় পড়েন বা আরও নতুন কোনো ফিচার চান, তবে সরাসরি আমাদের সাথে যোগাযোগ করুন। আপনাদের ভালোবাসা ও সাপোর্ট আমাদের এগিয়ে যেতে সাহায্য করে।</p>
-            <a href="https://wa.me/8801572494460" class="btn-wa" target="_blank">WhatsApp Support এ যুক্ত হন</a>
-        </div>
+    <div class="support">
+        <p style="margin:0; font-size:13px; font-weight:bold;">আমাদের সেবা ভালো লাগলে সাপোর্ট করুন 🤝</p>
+        <a href="https://wa.me/8801572494460" class="wa-link" target="_blank">WhatsApp Support</a>
     </div>
 </div>
 
 <script>
-    function generateMRZ() {
-        const code = (document.getElementById('p_code').value || 'BGD').toUpperCase();
-        const no = (document.getElementById('p_no').value || 'A0000000').toUpperCase();
-        const sn = (document.getElementById('p_sn').value || '').toUpperCase();
-        const gn = (document.getElementById('p_gn').value || '').toUpperCase();
-        const dob = document.getElementById('p_dob').value || '000101';
-        const exp = document.getElementById('p_exp').value || '311231';
-        const sex = document.getElementById('p_sex').value;
-        const pn = (document.getElementById('p_pn').value || '').toUpperCase();
+    function gen() {
+        const c = document.getElementById('c_code').value.toUpperCase();
+        const n = document.getElementById('p_no').value.toUpperCase();
+        const s = document.getElementById('p_sn').value.toUpperCase();
+        const g = document.getElementById('p_gn').value.toUpperCase();
+        const d = document.getElementById('p_dob').value;
+        const e = document.getElementById('p_exp').value;
+        const x = document.getElementById('p_sex').value;
+        const p = document.getElementById('p_pn').value.toUpperCase();
 
-        // Line 1 Generation: P<CODE(Surname)<<(GivenName)
-        let line1 = P<${code}${sn}<<${gn}.padEnd(44, '<').substring(0, 44);
+        let l1 = P<${c}${s}<<${g}.padEnd(44, '<').substring(0,44);
+        let l2 = ${n}<${c}${d}${x}${e}${p}${'<<<<<<<<<<<<<<<<<<<<'}.substring(0,44);
 
-        // Line 2 Generation: (PassportNo)<(Code)(DOB)(Sex)(Expiry)(PersonalNo)
-        // Note: Simple check digits are added as '<' for manual tool efficiency
-        let line2 = ${no}<${code}${dob}${sex}${exp}${pn}${'<<<<<<<<<<<<<<<<<<<<'}.substring(0, 44);
-
-        document.getElementById('mrz-output').innerText = line1 + "\n" + line2;
-        document.getElementById('result-box').style.display = 'block';
-        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+        document.getElementById('mrz-text').innerText = l1 + "\n" + l2;
+        document.getElementById('res-box').style.display = 'block';
     }
 
-    function copyMRZ() {
-        const text = document.getElementById('mrz-output').innerText;
-        navigator.clipboard.writeText(text).then(() => {
-            alert("সাফল্যের সাথে কপি করা হয়েছে! ✅");
-        });
+    function copy() {
+        navigator.clipboard.writeText(document.getElementById('mrz-text').innerText);
+        alert("কপি হয়েছে! ✅");
     }
 </script>
 </body>

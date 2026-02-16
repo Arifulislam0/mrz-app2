@@ -3,115 +3,108 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Arifulcom Travel Pro - Best Passport MRZ Generator</title>
-    
+    <title>Arifulcom Travel Pro - Fixed MRZ</title>
     <style>
         body { font-family: Arial, sans-serif; background: #f4f4f4; padding: 20px; display: flex; justify-content: center; }
         .main-card { width: 100%; max-width: 850px; background: #fff; border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1); overflow: hidden; }
-        
         .header { background: #1a1a1a; color: white; padding: 15px; text-align: center; border-bottom: 3px solid #007bff; }
         .header h2 { margin: 0; font-size: 22px; }
-
         .form-content { padding: 20px; }
-        
         .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 20px; }
         @media (max-width: 600px) { .grid { grid-template-columns: 1fr 1fr; } }
-        
         label { font-size: 11px; font-weight: bold; color: #333; display: block; margin-bottom: 2px; text-transform: uppercase; }
         input, select { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; font-size: 13px; }
-
-        #result-box { 
-            background: #000; color: #00ff00; font-family: 'Courier New', monospace; 
-            padding: 20px; margin-top: 10px; border-radius: 4px; min-height: 50px; 
-            text-align: center; font-size: 18px; line-height: 1.5; letter-spacing: 2px;
-            white-space: pre-line;
-        }
-        
+        #result-box { background: #000; color: #00ff00; font-family: 'Courier New', monospace; padding: 20px; margin-top: 10px; border-radius: 4px; min-height: 50px; text-align: center; font-size: 18px; line-height: 1.5; letter-spacing: 2px; white-space: pre-line; }
         .copy-btn { width: 100%; padding: 15px; background: #007bff; color: white; border: none; cursor: pointer; font-weight: bold; font-size: 16px; margin-top: 10px; }
-        .copy-btn:hover { background: #0056b3; }
-
         .support-section { text-align: center; padding: 20px; background: #fffbe6; border-top: 1px solid #ddd; }
-        .pay-btn { display: inline-block; background: #e2136e; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-weight: bold; margin-top: 10px; }
-        .wa-btn { color: green; font-weight: bold; text-decoration: none; margin-left: 10px; }
+        .pay-btn { display: inline-block; background: #e2136e; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-weight: bold; margin-top: 5px; }
     </style>
 </head>
 <body>
 
 <div class="main-card">
-    <div class="header">
-        <h2>Arifulcom Travel Pro</h2>
-    </div>
-
+    <div class="header"><h2>Arifulcom Travel Pro</h2></div>
     <div class="form-content">
         <div class="grid">
-            <div><label>COUNTRY (BGD)</label><input type="text" id="c" value="BGD" onkeyup="mrz()"></div>
-            <div><label>PASSPORT NO</label><input type="text" id="n" placeholder="A12345678" onkeyup="mrz()"></div>
-            <div><label>SURNAME</label><input type="text" id="s" placeholder="ISLAM" onkeyup="mrz()"></div>
-            <div><label>GIVEN NAME</label><input type="text" id="g" placeholder="ARIFUL" onkeyup="mrz()"></div>
-            <div><label>BIRTH (YYMMDD)</label><input type="text" id="d" placeholder="950101" onkeyup="mrz()"></div>
-            <div><label>EXPIRY (YYMMDD)</label><input type="text" id="e" placeholder="301231" onkeyup="mrz()"></div>
+            <div><label>COUNTRY (BGD)</label><input type="text" id="c" value="BGD" onkeyup="updateMRZ()"></div>
+            <div><label>PASSPORT NO</label><input type="text" id="n" placeholder="A12345678" onkeyup="updateMRZ()"></div>
+            <div><label>SURNAME</label><input type="text" id="s" placeholder="ISLAM" onkeyup="updateMRZ()"></div>
+            <div><label>GIVEN NAME</label><input type="text" id="g" placeholder="ARIFUL" onkeyup="updateMRZ()"></div>
+            <div><label>BIRTH (YYMMDD)</label><input type="text" id="d" placeholder="950101" onkeyup="updateMRZ()"></div>
+            <div><label>EXPIRY (YYMMDD)</label><input type="text" id="e" placeholder="301231" onkeyup="updateMRZ()"></div>
             <div><label>SEX</label>
-                <select id="x" onchange="mrz()">
+                <select id="x" onchange="updateMRZ()">
                     <option value="M">Male (M)</option>
                     <option value="F">Female (F)</option>
                 </select>
             </div>
-            <div><label>PERSONAL NO</label><input type="text" id="p" placeholder="NID/PN" onkeyup="mrz()"></div>
+            <div><label>PERSONAL NO</label><input type="text" id="p" placeholder="NID/PN" onkeyup="updateMRZ()"></div>
         </div>
-
         <div id="result-box"></div>
-        <button class="copy-btn" onclick="copy()">📋 কপি রেজাল্ট</button>
+        <button class="copy-btn" onclick="copyResult()">📋 কপি রেজাল্ট</button>
     </div>
-
     <div class="support-section">
         <p style="margin:0; font-weight:bold;">আমাদের সেবাটি ভালো লাগলে পাশে থাকুন 🤝</p>
-        <p style="font-size: 12px; color: #555;">বিকাশ/নগদ সাপোর্ট: <strong>+8801572494460</strong></p>
+        <p style="font-size: 12px; color: #555;">বিকাশ/নগদ সাপোর্ট: +8801572494460</p>
         <a href="tel:+8801572494460" class="pay-btn">সরাসরি কল দিন</a>
-        <a href="https://wa.me/8801572494460" class="wa-btn">WhatsApp Support</a>
     </div>
 </div>
 
 <script>
-    function mrz() {
-        // প্রতিটি ইনপুট থেকে ডাটা নেওয়া
-        var c = (document.getElementById('c').value || '').toUpperCase();
-        var n = (document.getElementById('n').value || '').toUpperCase();
-        var s = (document.getElementById('s').value || '').toUpperCase();
-        var g = (document.getElementById('g').value || '').toUpperCase();
-        var d = document.getElementById('d').value || '';
-        var e = document.getElementById('e').value || '';
-        var x = document.getElementById('x').value;
-        var p = (document.getElementById('p').value || '').toUpperCase();
+    // গাণিতিক চেকসাম ফাংশন (ICAO Standard)
+    function calcCheckDigit(str) {
+        const chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        const weights = [7, 3, 1];
+        let sum = 0;
+        for (let i = 0; i < str.length; i++) {
+            let val = chars.indexOf(str[i]);
+            if (val === -1) val = 0;
+            sum += val * weights[i % 3];
+        }
+        return sum % 10;
+    }
 
-        // Line 1: P<CODE(SURNAME)<<(GIVEN NAME)
-        var l1 = "P<" + c + s + "<<" + g;
-        while(l1.length < 44) l1 += "<";
-        l1 = l1.substring(0, 44);
+    function updateMRZ() {
+        let country = (document.getElementById('c').value || 'BGD').toUpperCase().padEnd(3, '<').substring(0, 3);
+        let passport = (document.getElementById('n').value || '').toUpperCase().padEnd(9, '<').substring(0, 9);
+        let surname = (document.getElementById('s').value || '').toUpperCase();
+        let givenName = (document.getElementById('g').value || '').toUpperCase();
+        let dob = (document.getElementById('d').value || '000000').padEnd(6, '0').substring(0, 6);
+        let expiry = (document.getElementById('e').value || '000000').padEnd(6, '0').substring(0, 6);
+        let sex = document.getElementById('x').value;
+        let personal = (document.getElementById('p').value || '').toUpperCase().padEnd(14, '<').substring(0, 14);
 
-        // Line 2: (PassportNo)<(Code)(DOB)(Sex)(Expiry)(PersonalNo)
-        var l2 = n + "<" + c + d + x + e + p;
-        while(l2.length < 44) l2 += "<";
-        l2 = l2.substring(0, 44);
+        // Line 1 Generation
+        let l1 = "P<" + country + surname + "<<" + givenName;
+        l1 = l1.padEnd(44, '<').substring(0, 44);
 
-        // সরাসরি কালো বক্সে লেখা দেখানো
+        // Line 2 Calculation (গাণিতিক চেক ডিজিট সহ)
+        let c1 = calcCheckDigit(passport);
+        let c2 = calcCheckDigit(dob);
+        let c3 = calcCheckDigit(expiry);
+        let c4 = calcCheckDigit(personal);
+        
+        // Final Check Digit (Passport + c1 + DOB + c2 + Expiry + c3 + Personal + c4)
+        let mainStr = passport + c1 + dob + c2 + expiry + c3 + personal + c4;
+        let cFinal = calcCheckDigit(mainStr);
+
+        let l2 = passport + c1 + country + dob + c2 + sex + expiry + c3 + personal + c4 + cFinal;
+        l2 = l2.padEnd(44, '<').substring(0, 44);
+
         document.getElementById('result-box').innerText = l1 + "\n" + l2;
     }
 
-    function copy() {
-        var text = document.getElementById('result-box').innerText;
-        if(!text) return;
-        var temp = document.createElement("textarea");
-        document.body.appendChild(temp);
-        temp.value = text;
-        temp.select();
-        document.execCommand("copy");
-        document.body.removeChild(temp);
+    function copyResult() {
+        const text = document.getElementById('result-box').innerText;
+        const el = document.createElement('textarea');
+        el.value = text;
+        document.body.appendChild(el);
+        el.select();
+        document.execCommand('copy');
+        document.body.removeChild(el);
         alert("সফলভাবে কপি হয়েছে! ✅");
     }
-
-    // পেজ লোড হওয়ার সাথে সাথে একবার রান হবে
-    window.onload = mrz;
+    window.onload = updateMRZ;
 </script>
-
 </body>
 </html>

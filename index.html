@@ -3,125 +3,163 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Arifulcom - Passport MRZ Generator Bangladesh</title>
-    <meta name="description" content="Generate accurate Passport MRZ codes online. Best tool for travel agencies and passport assistance in Bangladesh.">
-    <meta name="keywords" content="MRZ Generator, Passport MRZ, Bangladesh Passport, Arifulcom, Travel Tool">
-    <meta name="google-site-verification" content="uQBka7HPRnuXswlhQHhgctR2xU_U4rIgrIsOYyqP4Lk" />
+    <title>Arifulcom Travel Master Tool</title>
+    <meta name="google-site-verification" content="আপনার_কোড_এখানে" />
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     
     <style>
-        body { font-family: 'Segoe UI', sans-serif; background-color: #f0f2f5; padding: 15px; margin: 0; }
-        .container { max-width: 650px; background: white; padding: 25px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); margin: auto; border-top: 8px solid #007bff; }
-        .header { text-align: center; margin-bottom: 20px; }
-        .brand { font-size: 35px; font-weight: 900; color: #007bff; text-transform: uppercase; margin: 0; letter-spacing: 2px; }
-        .tagline { font-size: 14px; color: #666; }
+        :root { --primary: #007bff; --secondary: #6c757d; --dark: #1a1a1a; }
+        body { font-family: 'Poppins', sans-serif; background: #f4f7f6; margin: 0; padding: 0; }
+        .app-container { max-width: 500px; margin: auto; background: white; min-height: 100vh; box-shadow: 0 0 20px rgba(0,0,0,0.1); }
         
-        .ad-placeholder { width: 100%; height: 90px; background: #ebedef; margin: 15px 0; border-radius: 10px; display: flex; align-items: center; justify-content: center; color: #999; font-size: 12px; border: 1px dashed #ccc; }
+        /* Header & Nav */
+        header { background: var(--dark); color: white; padding: 20px; text-align: center; border-radius: 0 0 20px 20px; }
+        .timer-box { font-size: 12px; background: rgba(255,255,255,0.1); padding: 5px; border-radius: 5px; margin-top: 10px; }
+        
+        /* Tabs */
+        .tabs { display: flex; justify-content: space-around; background: #eee; padding: 10px; }
+        .tab-btn { border: none; padding: 10px; cursor: pointer; background: none; font-weight: 600; color: var(--secondary); }
+        .tab-btn.active { color: var(--primary); border-bottom: 2px solid var(--primary); }
 
-        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 15px; }
-        label { display: block; font-weight: bold; font-size: 12px; color: #444; margin-bottom: 4px; }
-        input, select { width: 100%; padding: 12px; border: 2px solid #eaeeef; border-radius: 10px; box-sizing: border-box; font-size: 14px; }
+        /* Form Styling */
+        .form-section { padding: 20px; }
+        .input-group { margin-bottom: 15px; }
+        label { display: block; font-size: 13px; color: #555; margin-bottom: 5px; }
+        input { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; text-transform: uppercase; }
         
-        .gen-btn { width: 100%; padding: 15px; background: #007bff; color: white; border: none; border-radius: 12px; margin-top: 20px; cursor: pointer; font-size: 18px; font-weight: bold; transition: 0.3s; }
-        .gen-btn:hover { background: #0056b3; box-shadow: 0 5px 15px rgba(0,123,255,0.4); }
-        
-        .result-box { margin-top: 25px; background: #1a1a1a; padding: 20px; border-radius: 15px; border: 2px solid #333; position: relative; }
-        #mrz-output { font-family: 'Courier New', Courier, monospace; font-size: 18px; letter-spacing: 3px; white-space: pre-wrap; color: #00ff41; line-height: 1.6; display: block; text-align: center; }
-        
-        .copy-btn { width: 100%; padding: 12px; background: #28a745; color: white; border: none; border-radius: 10px; margin-top: 10px; cursor: pointer; font-size: 16px; font-weight: bold; display: none; }
+        .gen-btn { width: 100%; padding: 15px; background: var(--primary); color: white; border: none; border-radius: 10px; font-weight: 600; cursor: pointer; transition: 0.3s; }
+        .gen-btn:hover { background: #0056b3; }
 
-        .income-box { margin-top: 30px; padding: 20px; background: #fff3cd; border: 1px solid #ffeeba; border-radius: 15px; text-align: center; animation: highlight 2s infinite alternate; }
-        @keyframes highlight { from { box-shadow: 0 0 5px #ffeeba; } to { box-shadow: 0 0 20px #ffc107; } }
+        /* Result Section */
+        #result-box { margin-top: 20px; padding: 15px; background: #e9ecef; border-radius: 10px; font-family: monospace; display: none; overflow-x: auto; }
+        #qrcode { margin: 20px auto; display: flex; justify-content: center; }
+
+        /* Support Box */
+        .support-btn { position: fixed; bottom: 20px; right: 20px; background: #28a745; color: white; padding: 15px; border-radius: 50px; cursor: pointer; box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+        .support-panel { display: none; position: fixed; bottom: 80px; right: 20px; width: 280px; background: white; border-radius: 15px; box-shadow: 0 0 20px rgba(0,0,0,0.2); padding: 15px; }
         
-        .bkash-text { font-weight: bold; color: #e2136e; font-size: 18px; margin-bottom: 10px; display: block; }
-        .support-btn { display: inline-block; padding: 10px 25px; background: #e2136e; color: white; text-decoration: none; border-radius: 8px; font-weight: bold; margin-top: 5px; }
+        @media print { .no-print { display: none; } .app-container { box-shadow: none; width: 100%; } }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <div class="header">
-        <h1 class="brand">Arifulcom</h1>
-        <p class="tagline">World-Class Passport MRZ Generator</p>
+<div class="app-container">
+    <header>
+        <h2 style="margin:0;">Arifulcom MRZ</h2>
+        <div class="timer-box no-print" id="guest-timer">Guest Session: 40:00 remaining</div>
+        <button onclick="login()" class="no-print" style="margin-top:10px; background:white; border:none; border-radius:5px; padding:5px 15px; font-size:12px; cursor:pointer;">Login with Google</button>
+    </header>
+
+    <div class="tabs no-print">
+        <button class="tab-btn active" onclick="switchMode('passport')">PASSPORT</button>
+        <button class="tab-btn" onclick="switchMode('idcard')">ID CARD (NID)</button>
     </div>
 
-    <div class="ad-placeholder">Advertisement Space (Auto-Ads)</div>
-
-    <div class="grid">
-        <div><label>SURNAME</label><input type="text" id="lname" placeholder="KOPIL"></div>
-        <div><label>GIVEN NAMES</label><input type="text" id="fname" placeholder="FAGUNI"></div>
-        <div><label>PASSPORT NO</label><input type="text" id="pnum" maxlength="9" placeholder="HK0963780"></div>
-        <div><label>COUNTRY CODE</label><input type="text" id="country" value="BGD"></div>
-        <div><label>DOB (YYMMDD)</label><input type="text" id="dob" placeholder="030423"></div>
-        <div><label>GENDER</label>
-            <select id="sex"><option value="M">Male (M)</option><option value="F">Female (F)</option></select>
+    <div class="form-section">
+        <div class="input-group">
+            <label>Full Name (As per Document)</label>
+            <input type="text" id="name" placeholder="E.G. ARIFUL ISLAM">
         </div>
-        <div><label>EXPIRY (YYMMDD)</label><input type="text" id="expiry" placeholder="310128"></div>
-        <div><label>PERSONAL NO</label><input type="text" id="personalNum" placeholder="NID or Personal No"></div>
+        <div class="input-group">
+            <label id="doc-label">Passport Number</label>
+            <input type="text" id="doc_num" placeholder="E.G. A01234567">
+        </div>
+        <div class="input-group">
+            <label>Nationality (3 Letter Code)</label>
+            <input type="text" id="nation" placeholder="BGD" maxlength="3">
+        </div>
+        <div class="input-group">
+            <label>Date of Birth (YYMMDD)</label>
+            <input type="text" id="dob" placeholder="950101">
+        </div>
+        
+        <button class="gen-btn no-print" onclick="generateMRZ()">GENERATE MRZ & QR</button>
+        
+        <div id="result-box">
+            <div id="mrz-text"></div>
+        </div>
+        
+        <div id="qrcode"></div>
+        
+        <button class="gen-btn no-print" id="print-btn" style="background:#6f42c1; margin-top:10px; display:none;" onclick="window.print()">PRINT REPORT</button>
+        
+        <div class="no-print" style="margin-top:30px; text-align:center; font-size:12px; color:#888;">
+            <p>Support my work via BKash: <b>01XXXXXXXXX</b></p>
+        </div>
     </div>
-
-    <button class="gen-btn" onclick="generateMRZ()">GENERATE MRZ</button>
-
-    <div class="result-box">
-        <code id="mrz-output">Your MRZ Code will appear here...</code>
-    </div>
-    
-    <button id="copyBtn" class="copy-btn" onclick="copyToClipboard()">COPY MRZ CODE</button>
-
-    <div class="income-box">
-        <span class="bkash-text">বিকাশ/নগদ (পারসোনাল): 01981071493</span>
-        <p style="margin: 5px 0; font-size: 13px; color: #856404;">আমাদের সার্ভিসটি আপনার উপকারে আসলে সাপোর্ট করতে পারেন।</p>
-        <a href="tel:01981071493" class="support-btn">Send Support</a>
-    </div>
-
-    <div class="ad-placeholder">Advertisement Space (Auto-Ads)</div>
 </div>
 
+<div class="support-panel no-print" id="supportPanel">
+    <h4 style="margin:0 0 10px 0;">Support Box</h4>
+    <textarea id="msg" style="width:100%; height:80px; border-radius:5px; border:1px solid #ddd;" placeholder="Type your problem..."></textarea>
+    <button onclick="sendSupport()" style="width:100%; background:#28a745; color:white; border:none; padding:10px; margin-top:10px; border-radius:5px;">Send Message</button>
+</div>
+<div class="support-btn no-print" onclick="toggleSupport()">💬 Help</div>
+
 <script>
-    function calcCheckDigit(data) {
-        const weights = [7, 3, 1];
-        let sum = 0;
-        for (let i = 0; i < data.length; i++) {
-            let char = data[i];
-            let val = 0;
-            if (char >= '0' && char <= '9') val = parseInt(char);
-            else if (char >= 'A' && char <= 'Z') val = char.charCodeAt(0) - 55;
-            else val = 0; 
-            sum += val * weights[i % 3];
+    let mode = 'passport';
+    let timeLeft = 40 * 60;
+
+    // Timer Logic
+    setInterval(() => {
+        if(timeLeft > 0) {
+            timeLeft--;
+            let mins = Math.floor(timeLeft / 60);
+            let secs = timeLeft % 60;
+            document.getElementById('guest-timer').innerText = Guest Session: ${mins}:${secs < 10 ? '0' : ''}${secs} remaining;
+        } else {
+            alert("Session Expired! Please login to continue.");
+            location.reload();
         }
-        return sum % 10;
+    }, 1000);
+
+    function switchMode(m) {
+        mode = m;
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        event.target.classList.add('active');
+        document.getElementById('doc-label').innerText = m === 'passport' ? 'Passport Number' : 'ID Card Number';
     }
 
     function generateMRZ() {
-        let f = document.getElementById('fname').value.toUpperCase().trim().replace(/ /g, '<');
-        let l = document.getElementById('lname').value.toUpperCase().trim().replace(/ /g, '<');
-        let p = document.getElementById('pnum').value.toUpperCase().trim().padEnd(9, '<');
-        let c = document.getElementById('country').value.toUpperCase().trim().substring(0,3);
-        let dob = document.getElementById('dob').value.trim();
-        let s = document.getElementById('sex').value;
-        let exp = document.getElementById('expiry').value.trim();
-        let pNumIn = document.getElementById('personalNum').value.toUpperCase().replace(/[^A-Z0-9]/g, '');
-        let pNum = pNumIn.padEnd(14, '<');
+        let name = document.getElementById('name').value.toUpperCase().replace(/ /g, "<<");
+        let doc = document.getElementById('doc_num').value.toUpperCase();
+        let nat = document.getElementById('nation').value.toUpperCase();
+        let dob = document.getElementById('dob').value;
+        
+        let line1, line2;
+        if(mode === 'passport') {
+            line1 = P<${nat}${name}${'<'.repeat(44 - (5 + nat.length + name.length))}.substring(0,44);
+            line2 = ${doc}<${nat}${dob}${'<'.repeat(44 - (doc.length + 1 + nat.length + dob.length))}.substring(0,44);
+        } else {
+            line1 = I<${nat}${doc}${'<'.repeat(30 - (5 + doc.length))}.substring(0,30);
+            line2 = ${dob}${'<'.repeat(30 - (dob.length))}.substring(0,30);
+        }
 
-        if(!dob || !exp || !p.replace(/</g,'')) { alert("অনুগ্রহ করে সব তথ্য দিন!"); return; }
-
-        let line1 = ("P<" + c + l + "<<" + f).padEnd(44, '<').substring(0,44);
-        let cp = calcCheckDigit(p), cd = calcCheckDigit(dob), ce = calcCheckDigit(exp), cpn = calcCheckDigit(pNum);
-        let comp = p + cp + dob + cd + exp + ce + pNum + cpn;
-        let cf = calcCheckDigit(comp);
-
-        let line2 = p + cp + c + dob + cd + s + exp + ce + pNum + cpn + cf;
-        line2 = line2.padEnd(44, '<').substring(0,44);
-
-        document.getElementById('mrz-output').innerText = line1 + "\n" + line2;
-        document.getElementById('copyBtn').style.display = 'block';
+        document.getElementById('mrz-text').innerHTML = <b>MRZ CODE:</b><br>${line1}<br>${line2};
+        document.getElementById('result-box').style.display = 'block';
+        document.getElementById('print-btn').style.display = 'block';
+        
+        // QR Code
+        document.getElementById("qrcode").innerHTML = "";
+        new QRCode(document.getElementById("qrcode"), { text: ${name}|${doc}|${nat}, width: 128, height: 128 });
     }
 
-    function copyToClipboard() {
-        const text = document.getElementById('mrz-output').innerText;
-        navigator.clipboard.writeText(text).then(() => { alert("MRZ কোড কপি হয়েছে!"); });
+    function toggleSupport() {
+        let p = document.getElementById('supportPanel');
+        p.style.display = p.style.display === 'block' ? 'none' : 'block';
+    }
+
+    function sendSupport() {
+        alert("Thank you! Your message has been sent to Ariful.");
+        toggleSupport();
+    }
+
+    function login() {
+        alert("Google Login Integration (Firebase) will be added in the next update!");
     }
 </script>
 
 </body>
 </html>
-

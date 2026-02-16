@@ -3,7 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Arifulcom - Global MRZ Generator</title>
+    <title>Arifulcom - Passport MRZ Generator Bangladesh</title>
+    <meta name="description" content="Generate accurate Passport MRZ codes online. Best tool for travel agencies and passport assistance in Bangladesh.">
+    <meta name="keywords" content="MRZ Generator, Passport MRZ, Bangladesh Passport, Arifulcom, Travel Tool">
+    
     <style>
         body { font-family: 'Segoe UI', sans-serif; background-color: #f0f2f5; padding: 15px; margin: 0; }
         .container { max-width: 650px; background: white; padding: 25px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); margin: auto; border-top: 8px solid #007bff; }
@@ -11,7 +14,6 @@
         .brand { font-size: 35px; font-weight: 900; color: #007bff; text-transform: uppercase; margin: 0; letter-spacing: 2px; }
         .tagline { font-size: 14px; color: #666; }
         
-        /* Ad Section Style */
         .ad-placeholder { width: 100%; height: 90px; background: #ebedef; margin: 15px 0; border-radius: 10px; display: flex; align-items: center; justify-content: center; color: #999; font-size: 12px; border: 1px dashed #ccc; }
 
         .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 15px; }
@@ -19,15 +21,16 @@
         input, select { width: 100%; padding: 12px; border: 2px solid #eaeeef; border-radius: 10px; box-sizing: border-box; font-size: 14px; }
         
         .gen-btn { width: 100%; padding: 15px; background: #007bff; color: white; border: none; border-radius: 12px; margin-top: 20px; cursor: pointer; font-size: 18px; font-weight: bold; transition: 0.3s; }
-        .gen-btn:hover { background: #0056b3; }
+        .gen-btn:hover { background: #0056b3; box-shadow: 0 5px 15px rgba(0,123,255,0.4); }
         
-        .result-box { margin-top: 25px; background: #1a1a1a; padding: 20px; border-radius: 15px; border: 2px solid #333; }
+        .result-box { margin-top: 25px; background: #1a1a1a; padding: 20px; border-radius: 15px; border: 2px solid #333; position: relative; }
         #mrz-output { font-family: 'Courier New', Courier, monospace; font-size: 18px; letter-spacing: 3px; white-space: pre-wrap; color: #00ff41; line-height: 1.6; display: block; text-align: center; }
         
         .copy-btn { width: 100%; padding: 12px; background: #28a745; color: white; border: none; border-radius: 10px; margin-top: 10px; cursor: pointer; font-size: 16px; font-weight: bold; display: none; }
 
-        /* Income/Payment Section */
-        .income-box { margin-top: 30px; padding: 20px; background: #fff3cd; border: 1px solid #ffeeba; border-radius: 15px; text-align: center; }
+        .income-box { margin-top: 30px; padding: 20px; background: #fff3cd; border: 1px solid #ffeeba; border-radius: 15px; text-align: center; animation: highlight 2s infinite alternate; }
+        @keyframes highlight { from { box-shadow: 0 0 5px #ffeeba; } to { box-shadow: 0 0 20px #ffc107; } }
+        
         .bkash-text { font-weight: bold; color: #e2136e; font-size: 18px; margin-bottom: 10px; display: block; }
         .support-btn { display: inline-block; padding: 10px 25px; background: #e2136e; color: white; text-decoration: none; border-radius: 8px; font-weight: bold; margin-top: 5px; }
     </style>
@@ -40,15 +43,13 @@
         <p class="tagline">World-Class Passport MRZ Generator</p>
     </div>
 
-    <div class="ad-placeholder">
-        Advertisement Space (Auto-Ads)
-    </div>
+    <div class="ad-placeholder">Advertisement Space (Auto-Ads)</div>
 
     <div class="grid">
         <div><label>SURNAME</label><input type="text" id="lname" placeholder="KOPIL"></div>
         <div><label>GIVEN NAMES</label><input type="text" id="fname" placeholder="FAGUNI"></div>
         <div><label>PASSPORT NO</label><input type="text" id="pnum" maxlength="9" placeholder="HK0963780"></div>
-        <div><label>COUNTRY CODE</label><input type="text" id="country" value="MMR"></div>
+        <div><label>COUNTRY CODE</label><input type="text" id="country" value="BGD"></div>
         <div><label>DOB (YYMMDD)</label><input type="text" id="dob" placeholder="030423"></div>
         <div><label>GENDER</label>
             <select id="sex"><option value="M">Male (M)</option><option value="F">Female (F)</option></select>
@@ -60,20 +61,18 @@
     <button class="gen-btn" onclick="generateMRZ()">GENERATE MRZ</button>
 
     <div class="result-box">
-        <code id="mrz-output">Output will appear here...</code>
+        <code id="mrz-output">Your MRZ Code will appear here...</code>
     </div>
     
     <button id="copyBtn" class="copy-btn" onclick="copyToClipboard()">COPY MRZ CODE</button>
 
     <div class="income-box">
         <span class="bkash-text">বিকাশ/নগদ (পারসোনাল): 01981071493</span>
-        <p style="margin: 5px 0; font-size: 13px; color: #856404;">সার্ভিসটি ভালো লাগলে আমাদের সাপোর্ট করতে পারেন।</p>
-        <a href="tel:01981071493" class="support-btn">Send Donation</a>
+        <p style="margin: 5px 0; font-size: 13px; color: #856404;">আমাদের সার্ভিসটি আপনার উপকারে আসলে সাপোর্ট করতে পারেন।</p>
+        <a href="tel:01981071493" class="support-btn">Send Support</a>
     </div>
 
-    <div class="ad-placeholder">
-        Advertisement Space (Auto-Ads)
-    </div>
+    <div class="ad-placeholder">Advertisement Space (Auto-Ads)</div>
 </div>
 
 <script>
@@ -102,7 +101,7 @@
         let pNumIn = document.getElementById('personalNum').value.toUpperCase().replace(/[^A-Z0-9]/g, '');
         let pNum = pNumIn.padEnd(14, '<');
 
-        if(!dob || !exp || !p.replace(/</g,'')) { alert("সব তথ্য সঠিকভাবে পূরণ করুন!"); return; }
+        if(!dob || !exp || !p.replace(/</g,'')) { alert("অনুগ্রহ করে সব তথ্য দিন!"); return; }
 
         let line1 = ("P<" + c + l + "<<" + f).padEnd(44, '<').substring(0,44);
         let cp = calcCheckDigit(p), cd = calcCheckDigit(dob), ce = calcCheckDigit(exp), cpn = calcCheckDigit(pNum);
@@ -118,7 +117,7 @@
 
     function copyToClipboard() {
         const text = document.getElementById('mrz-output').innerText;
-        navigator.clipboard.writeText(text).then(() => { alert("MRZ Code Copied!"); });
+        navigator.clipboard.writeText(text).then(() => { alert("MRZ কোড কপি হয়েছে!"); });
     }
 </script>
 

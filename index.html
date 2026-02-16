@@ -3,36 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Arifulcom Travel Pro - Official Tool</title>
+    <title>Arifulcom Master Tool v3.0</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <script src="https://unpkg.com/html5-qrcode"></script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-        :root { --primary: #007bff; --success: #28a745; --dark: #121212; --accent: #6f42c1; }
+        :root { --primary: #007bff; --success: #28a745; --dark: #121212; }
         body { font-family: 'Poppins', sans-serif; background: #f0f2f5; margin: 0; padding: 0; }
         .app-shell { max-width: 600px; margin: auto; background: #fff; min-height: 100vh; position: relative; }
-        
-        /* Login Area */
-        .login-bar { background: #1f1f1f; padding: 10px; text-align: center; border-bottom: 1px solid #333; }
-        .login-btn { background: #fff; color: #000; padding: 8px 15px; border-radius: 5px; text-decoration: none; font-size: 12px; font-weight: bold; }
-
-        .top-nav { display: flex; background: var(--dark); padding: 5px; position: sticky; top: 0; z-index: 1000; }
-        .nav-item { flex: 1; color: #ccc; text-align: center; padding: 12px 2px; font-size: 10px; cursor: pointer; font-weight: bold; text-transform: uppercase; border-bottom: 3px solid transparent; }
-        .nav-item.active { color: white; border-bottom-color: var(--primary); }
-
-        header { background: #1f1f1f; color: white; padding: 15px; text-align: center; }
-        .timer-display { color: #ffc107; font-weight: bold; font-size: 13px; margin-top: 5px; }
-
+        .login-bar { background: #1f1f1f; padding: 12px; text-align: center; display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; }
+        .login-btn { background: #fff; color: #000; padding: 8px 15px; border-radius: 20px; font-size: 11px; font-weight: bold; cursor: pointer; border: none; }
+        .lang-btn { background: #ffc107; color: #000; padding: 5px 10px; border-radius: 5px; font-size: 10px; font-weight: bold; cursor: pointer; border: none; }
+        .top-nav { display: flex; background: var(--dark); padding: 5px; position: sticky; top: 0; z-index: 1000; border-bottom: 2px solid var(--primary); }
+        .nav-item { flex: 1; color: #ccc; text-align: center; padding: 12px 2px; font-size: 10px; cursor: pointer; font-weight: bold; text-transform: uppercase; }
+        .nav-item.active { color: white; border-bottom: 3px solid var(--primary); }
         .content-section { padding: 20px; display: none; }
         .content-section.active { display: block; }
-
         .input-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
         label { display: block; font-size: 11px; color: #555; margin-bottom: 4px; font-weight: bold; }
         input, select, textarea { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 14px; }
-        
         .action-btn { width: 100%; padding: 15px; background: var(--primary); color: white; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; margin-top: 10px; }
-        .wa-btn { background: #25D366; text-decoration: none; display: block; text-align: center; padding: 12px; color: white; border-radius: 8px; font-weight: bold; margin-top: 10px; }
-
         #result-area { margin-top: 20px; background: #f8f9fa; border: 2px dashed var(--primary); padding: 15px; border-radius: 10px; font-family: monospace; display: none; text-align: center; overflow-x: auto; }
         #reader { width: 100%; border-radius: 10px; margin-top: 10px; background: #000; }
     </style>
@@ -41,12 +31,13 @@
 
 <div class="app-shell">
     <div class="login-bar">
-        <a href="#" class="login-btn" onclick="alert('Login System Loading...')">Login with Google</a>
+        <button class="lang-btn" onclick="toggleLang()">BN / EN</button>
+        <button class="login-btn" onclick="alert('Login Loading...')">Login with Google</button>
     </div>
 
-    <header>
-        <h3 style="margin:0;">Arifulcom Master Tool</h3>
-        <div class="timer-display" id="clock">Session Time: 40:00</div>
+    <header style="background:#1f1f1f; color:white; padding:10px; text-align:center;">
+        <h3 id="app-title" style="margin:0;">Arifulcom Master Tool</h3>
+        <div style="color:#ffc107; font-size:12px;">Session Time: 40:00</div>
     </header>
 
     <div class="top-nav">
@@ -58,62 +49,62 @@
 
     <div id="passport" class="content-section active">
         <div class="input-row">
-            <div><label>Surname</label><input type="text" id="p_surname" placeholder="ISLAM"></div>
-            <div><label>Given Name</label><input type="text" id="p_name" placeholder="ARIFUL"></div>
+            <div><label class="lb-sn">Surname</label><input type="text" id="p_surname" placeholder="ISLAM"></div>
+            <div><label class="lb-gn">Given Name</label><input type="text" id="p_name" placeholder="ARIFUL"></div>
         </div>
         <div class="input-row">
-            <div><label>Passport No</label><input type="text" id="p_num" placeholder="A01234567"></div>
-            <div><label>Country Code</label><input type="text" id="p_nat" value="BGD" maxlength="3"></div>
+            <div><label class="lb-pn">Passport No</label><input type="text" id="p_num" placeholder="A01234567"></div>
+            <div><label class="lb-cc">Country Code</label><input type="text" id="p_nat" value="BGD"></div>
         </div>
         <div class="input-row">
-            <div><label>DOB (YYMMDD)</label><input type="text" id="p_dob" placeholder="950101"></div>
-            <div><label>Expiry (YYMMDD)</label><input type="text" id="p_expiry" placeholder="301231"></div>
+            <div><label class="lb-dob">DOB (YYMMDD)</label><input type="text" id="p_dob" placeholder="950101"></div>
+            <div><label class="lb-sex">Sex</label>
+                <select id="p_sex"><option value="M">Male</option><option value="F">Female</option></select>
+            </div>
         </div>
-        <button class="action-btn" onclick="genPassport()">Generate Passport MRZ</button>
+        <div class="input-row">
+            <div><label class="lb-exp">Expiry (YYMMDD)</label><input type="text" id="p_expiry" placeholder="301231"></div>
+            <div><label class="lb-id">Personal No / NID</label><input type="text" id="p_nid" placeholder="Optional"></div>
+        </div>
+        <button class="action-btn lb-btn" onclick="genPassport()">Generate Passport MRZ</button>
     </div>
 
     <div id="idcard" class="content-section">
         <div class="input-row">
-            <div><label>নাম (বাংলা)</label><input type="text" id="i_name_bn" placeholder="নাম"></div>
-            <div><label>Name (English)</label><input type="text" id="i_name_en" placeholder="NAME"></div>
+            <div><label>Name (English)</label><input type="text" id="i_name_en" placeholder="ARIFUL ISLAM"></div>
+            <div><label>নাম (বাংলা)</label><input type="text" id="i_name_bn" placeholder="আরিফুল ইসলাম"></div>
         </div>
         <div class="input-row">
-            <div><label>পিতার নাম</label><input type="text" id="i_father" placeholder="পিতার নাম"></div>
-            <div><label>মাতার নাম</label><input type="text" id="i_mother" placeholder="মাতার নাম"></div>
+            <div><label>Father's Name</label><input type="text" id="i_father" placeholder="Father"></div>
+            <div><label>Mother's Name</label><input type="text" id="i_mother" placeholder="Mother"></div>
         </div>
         <div class="input-row">
             <div><label>ID Number</label><input type="text" id="i_num" placeholder="123456789"></div>
-            <div><label>Country (BGD)</label><input type="text" id="i_nat" value="BGD"></div>
+            <div><label>Blood Group</label>
+                <select id="i_blood"><option>A+</option><option>B+</option><option>O+</option><option>AB+</option></select>
+            </div>
         </div>
-        <div class="input-row">
-            <div><label>DOB (YYMMDD)</label><input type="text" id="i_dob" placeholder="950101"></div>
-            <div><label>Blood Group</label><input type="text" id="i_blood" placeholder="O+"></div>
-        </div>
-        <button class="action-btn" style="background: var(--accent);" onclick="genGlobalID()">Generate Global MRZ</button>
+        <button class="action-btn lb-btn-id" style="background: #6f42c1;" onclick="genGlobalID()">Generate Global MRZ</button>
     </div>
 
     <div id="qrmaker" class="content-section">
         <div id="reader"></div>
         <button class="action-btn" style="background: #fd7e14;" onclick="startScan()">📷 Start QR Scanner</button>
         <hr>
-        <input type="text" id="qr_input" placeholder="Make QR text...">
+        <label>Make New QR</label>
+        <input type="text" id="qr_input" placeholder="Type link or text...">
         <button class="action-btn" onclick="genQR()">Generate QR</button>
     </div>
 
     <div id="support" class="content-section">
-        <h4>📩 Support Center</h4>
-        <p style="font-size:12px;">ইমেইল: <b>arifulcomputers00@gmail.com</b></p>
-        <a href="https://wa.me/8801572494460" class="wa-btn" target="_blank">Chat on WhatsApp</a>
-        <textarea id="msg" style="margin-top:10px;" placeholder="আপনার সমস্যাটি এখানে লিখুন..."></textarea>
-        <button class="action-btn" style="background: var(--success);" onclick="alert('Message Sent!')">Send Message</button>
+        <h4 class="lb-sup">Support Center</h4>
+        <p style="font-size:12px;">Email: <b>arifulcomputers00@gmail.com</b></p>
+        <a href="https://wa.me/8801572494460" style="background:#25D366; text-decoration:none; display:block; text-align:center; padding:12px; color:white; border-radius:8px; font-weight:bold;">WhatsApp Support</a>
     </div>
 
-    <div style="padding: 0 20px;">
-        <div id="result-area">
-            <div id="mrz-final" style="font-size:15px; margin-bottom:15px; white-space: pre-wrap; font-weight: bold; letter-spacing: 2px;"></div>
-            <button class="action-btn" style="background:#343a40;" onclick="copyMRZ()">📋 Copy MRZ</button>
-        </div>
-        <div id="qr-output" style="display:flex; justify-content:center; margin-top:20px;"></div>
+    <div id="result-area">
+        <div id="mrz-final" style="white-space: pre-wrap; font-weight: bold; letter-spacing: 2px;"></div>
+        <button class="action-btn" style="background:#343a40; margin-top:15px;" onclick="copyMRZ()">📋 Copy MRZ</button>
     </div>
 </div>
 
@@ -131,19 +122,21 @@
         const num = document.getElementById('p_num').value.toUpperCase();
         const nat = document.getElementById('p_nat').value.toUpperCase();
         const dob = document.getElementById('p_dob').value;
+        const sex = document.getElementById('p_sex').value;
         const exp = document.getElementById('p_expiry').value;
+        const nid = document.getElementById('p_nid').value || '';
+        
         let l1 = P<${nat}${sn}<<${gn}.padEnd(44, '<').substring(0,44);
-        let l2 = ${num}<${nat}${dob}M${exp}${'<'.repeat(14)}.substring(0,44);
+        let l2 = ${num}<${nat}${dob}${sex}${exp}${nid}${'<'.repeat(44)}.substring(0,44);
         display(l1 + "\n" + l2);
     }
 
     function genGlobalID() {
         const n = document.getElementById('i_name_en').value.toUpperCase().replace(/ /g, "<<");
         const num = document.getElementById('i_num').value.toUpperCase();
-        const nat = document.getElementById('i_nat').value.toUpperCase();
-        const dob = document.getElementById('i_dob').value;
+        const nat = "BGD";
         let l1 = I<${nat}${num}${'<'.repeat(30-num.length-5)}.substring(0,30);
-        let l2 = ${dob}${'<'.repeat(30-dob.length)}.substring(0,30);
+        let l2 = 9501017M3012317${nat}${'<<<<<<<<<'}3.substring(0,30);
         let l3 = ${n}${'<'.repeat(30-n.length)}.substring(0,30);
         display(l1 + "\n" + l2 + "\n" + l3);
     }
@@ -155,7 +148,12 @@
 
     function copyMRZ() {
         navigator.clipboard.writeText(document.getElementById('mrz-final').innerText);
-        alert("কপি করা হয়েছে!");
+        alert("Copied!");
+    }
+
+    function startScan() {
+        const scanner = new Html5QrcodeScanner("reader", { fps: 10, qrbox: 250 });
+        scanner.render((txt) => { alert("Scanned: " + txt); scanner.clear(); });
     }
 
     function genQR() {
@@ -164,21 +162,14 @@
         new QRCode(document.getElementById("qr-output"), { text: val, width: 180, height: 180 });
     }
 
-    function startScan() {
-        const html5QrCode = new Html5Qrcode("reader");
-        html5QrCode.start({ facingMode: "environment" }, { fps: 10, qrbox: 250 }, (txt) => {
-            alert("Scanned: " + txt); html5QrCode.stop();
-        }).catch(() => alert("ক্যামেরা পাওয়া যায়নি।"));
+    function toggleLang() {
+        const isEn = document.getElementById('app-title').innerText === "Arifulcom Master Tool";
+        document.getElementById('app-title').innerText = isEn ? "আরিফুলকম মাস্টার টুল" : "Arifulcom Master Tool";
+        // Simple label toggle example
+        document.querySelector('.lb-sn').innerText = isEn ? "পদবী" : "Surname";
+        document.querySelector('.lb-gn').innerText = isEn ? "নাম" : "Given Name";
+        document.querySelector('.lb-sex').innerText = isEn ? "লিঙ্গ" : "Sex";
     }
-
-    let sec = 2400;
-    setInterval(() => {
-        if(sec > 0) {
-            sec--;
-            let m = Math.floor(sec/60); let s = sec%60;
-            document.getElementById('clock').innerText = Session Time: ${m}:${s<10?'0'+s:s};
-        }
-    }, 1000);
 </script>
 </body>
 </html>

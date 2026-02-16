@@ -3,158 +3,160 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Arifulcom Global Tool</title>
+    <title>Arifulcom Travel Master</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <script src="https://unpkg.com/html5-qrcode"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-        :root { --primary: #007bff; --success: #28a745; --dark: #121212; }
-        body { font-family: 'Poppins', sans-serif; background: #f4f7f6; margin: 0; padding: 0; }
-        .app-shell { max-width: 600px; margin: auto; background: #fff; min-height: 100vh; position: relative; padding-bottom: 50px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        :root { --primary: #007bff; --dark: #1a1a1a; --success: #28a745; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; background: #f0f2f5; margin: 0; padding: 0; color: #333; }
+        .container { max-width: 600px; margin: auto; background: #fff; min-height: 100vh; box-shadow: 0 0 20px rgba(0,0,0,0.1); padding-bottom: 50px; }
         
-        header { background: #1a1a1a; color: white; padding: 15px; text-align: center; }
-        .top-nav { display: flex; background: #222; position: sticky; top: 0; z-index: 1000; border-bottom: 2px solid var(--primary); }
-        .nav-item { flex: 1; color: #bbb; text-align: center; padding: 12px 2px; font-size: 11px; cursor: pointer; font-weight: bold; border-bottom: 3px solid transparent; }
-        .nav-item.active { color: white; border-bottom-color: var(--primary); background: #333; }
+        /* Header & Nav */
+        header { background: var(--dark); color: #fff; padding: 20px; text-align: center; border-bottom: 3px solid var(--primary); }
+        .nav-tabs { display: flex; background: #2c2c2c; sticky: top; top: 0; z-index: 100; }
+        .tab-btn { flex: 1; padding: 15px 5px; color: #bbb; text-align: center; cursor: pointer; font-size: 11px; font-weight: bold; border-bottom: 3px solid transparent; }
+        .tab-btn.active { color: #fff; border-bottom-color: var(--primary); background: #3d3d3d; }
 
-        .content-section { padding: 20px; display: none; }
-        .content-section.active { display: block; }
-
-        .input-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
-        label { display: block; font-size: 12px; color: #444; margin-bottom: 5px; font-weight: 600; }
-        input, select, textarea { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 8px; font-size: 14px; box-sizing: border-box; }
+        /* Form Elements */
+        .content { padding: 20px; display: none; }
+        .content.active { display: block; }
+        .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px; }
+        label { display: block; font-size: 12px; font-weight: bold; margin-bottom: 5px; color: #555; }
+        input, select, textarea { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; box-sizing: border-box; }
         
-        .action-btn { width: 100%; padding: 15px; background: var(--primary); color: white; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; margin-top: 10px; font-size: 15px; }
-        .copy-btn { background: #343a40; margin-top: 15px; }
-        .wa-btn { background: #25D366; text-decoration: none; display: block; text-align: center; padding: 14px; color: white; border-radius: 8px; font-weight: bold; margin-top: 15px; }
+        /* Buttons */
+        .btn-main { width: 100%; padding: 16px; background: var(--primary); color: #fff; border: none; border-radius: 12px; font-weight: bold; font-size: 16px; cursor: pointer; margin-top: 10px; }
+        .btn-copy { background: #343a40; margin-top: 15px; display: none; }
+        .btn-wa { background: #25D366; color: white; text-decoration: none; display: block; text-align: center; padding: 15px; border-radius: 10px; font-weight: bold; margin-top: 10px; }
 
-        #result-box { margin-top: 25px; background: #f8f9fa; border: 2px dashed #007bff; padding: 20px; border-radius: 10px; text-align: center; display: none; }
-        #mrz-text { font-family: 'Courier New', monospace; font-size: 16px; font-weight: bold; word-break: break-all; white-space: pre-wrap; line-height: 1.5; color: #000; letter-spacing: 2px; }
-        #reader { width: 100%; border-radius: 10px; margin-top: 10px; background: #000; min-height: 250px; overflow: hidden; }
+        /* Results Area */
+        #output-container { margin-top: 25px; padding: 20px; background: #f8f9fa; border: 2px dashed var(--primary); border-radius: 12px; text-align: center; display: none; }
+        #mrz-display { font-family: 'Courier New', monospace; font-size: 16px; font-weight: bold; white-space: pre-wrap; word-break: break-all; color: #000; line-height: 1.6; }
+        #reader { width: 100%; border-radius: 10px; margin-top: 10px; background: #000; min-height: 250px; }
     </style>
 </head>
 <body>
 
-<div class="app-shell">
+<div class="container">
     <header>
-        <h3 style="margin:0;">Arifulcom Master Tool</h3>
-        <div style="color:#ffc107; font-size:12px; margin-top:5px;">Session Time: 40:00</div>
+        <h2 style="margin:0;">Arifulcom Master Tool</h2>
+        <div style="color:#ffc107; font-size:14px; margin-top:5px;">Session: 40:00</div>
     </header>
 
-    <div class="top-nav">
-        <div class="nav-item active" onclick="showTab('passport', this)">PASSPORT</div>
-        <div class="nav-item" onclick="showTab('idcard', this)">ID CARD</div>
-        <div class="nav-item" onclick="showTab('scanner', this)">SCANNER</div>
-        <div class="nav-item" onclick="showTab('support', this)">SUPPORT</div>
+    <div class="nav-tabs">
+        <div class="tab-btn active" onclick="openTab(event, 'p-tab')">PASSPORT</div>
+        <div class="tab-btn" onclick="openTab(event, 'i-tab')">GLOBAL ID</div>
+        <div class="tab-btn" onclick="openTab(event, 's-tab')">SCANNER</div>
+        <div class="tab-btn" onclick="openTab(event, 'u-tab')">SUPPORT</div>
     </div>
 
-    <div id="passport" class="content-section active">
-        <div class="input-row">
-            <div><label>Surname (পদবী)</label><input type="text" id="p_surname" placeholder="ISLAM"></div>
-            <div><label>Given Name (নাম)</label><input type="text" id="p_name" placeholder="ARIFUL"></div>
+    <div id="p-tab" class="content active">
+        <div class="field-row">
+            <div><label>Surname (পদবী)</label><input type="text" id="p_sn" placeholder="ISLAM"></div>
+            <div><label>Given Name (নাম)</label><input type="text" id="p_gn" placeholder="ARIFUL"></div>
         </div>
-        <div class="input-row">
-            <div><label>Passport No</label><input type="text" id="p_num" placeholder="A01234567"></div>
+        <div class="field-row">
+            <div><label>Passport No</label><input type="text" id="p_no" placeholder="A01234567"></div>
             <div><label>Sex (লিঙ্গ)</label>
-                <select id="p_sex"><option value="M">Male (M)</option><option value="F">Female (F)</option></select>
+                <select id="p_sx"><option value="M">Male (M)</option><option value="F">Female (F)</option></select>
             </div>
         </div>
-        <div class="input-row">
-            <div><label>Birth Date (YYMMDD)</label><input type="text" id="p_dob" placeholder="950101"></div>
-            <div><label>Expiry Date (YYMMDD)</label><input type="text" id="p_exp" placeholder="301231"></div>
+        <div class="field-row">
+            <div><label>Birth Date (YYMMDD)</label><input type="text" id="p_db" placeholder="950101"></div>
+            <div><label>Expiry Date (YYMMDD)</label><input type="text" id="p_ex" placeholder="301231"></div>
         </div>
-        <button class="action-btn" onclick="genPassport()">GENERATE PASSPORT MRZ</button>
+        <button class="btn-main" onclick="makePassport()">GENERATE PASSPORT MRZ</button>
     </div>
 
-    <div id="idcard" class="content-section">
-        <div class="input-row">
-            <div><label>নাম (বাংলা)</label><input type="text" id="i_name_bn" placeholder="আরিফুল ইসলাম"></div>
-            <div><label>Name (English)</label><input type="text" id="i_name_en" placeholder="ARIFUL ISLAM"></div>
+    <div id="i-tab" class="content">
+        <div class="field-row">
+            <div><label>Name (English)</label><input type="text" id="i_en" placeholder="ARIFUL ISLAM"></div>
+            <div><label>নাম (বাংলা)</label><input type="text" placeholder="আরিফুল ইসলাম"></div>
         </div>
-        <div class="input-row">
-            <div><label>পিতার নাম</label><input type="text" id="i_father" placeholder="পিতার নাম"></div>
-            <div><label>মাতার নাম</label><input type="text" id="i_mother" placeholder="মাতার নাম"></div>
+        <div class="field-row">
+            <div><label>ID Number</label><input type="text" id="i_no" placeholder="123456789"></div>
+            <div><label>Country Code</label><input type="text" id="i_ct" value="BGD"></div>
         </div>
-        <div class="input-row">
-            <div><label>ID Number</label><input type="text" id="i_num" placeholder="123456789"></div>
-            <div><label>রক্তের গ্রুপ</label>
-                <select id="i_blood"><option>A+</option><option>B+</option><option>O+</option><option>AB+</option><option>A-</option></select>
-            </div>
+        <div class="field-row">
+            <div><label>Father's Name</label><input type="text" placeholder="পিতার নাম"></div>
+            <div><label>Blood Group</label><input type="text" placeholder="O+"></div>
         </div>
-        <label>ঠিকানা (Full Address)</label>
-        <textarea id="i_addr" rows="2" placeholder="গ্রাম, ডাকঘর, উপজেলা, জেলা"></textarea>
-        <button class="action-btn" style="background: #6f42c1;" onclick="genID()">GENERATE GLOBAL ID MRZ</button>
+        <button class="btn-main" style="background: #6f42c1;" onclick="makeID()">GENERATE GLOBAL ID MRZ</button>
     </div>
 
-    <div id="scanner" class="content-section">
+    <div id="s-tab" class="content">
         <div id="reader"></div>
-        <button class="action-btn" style="background: #fd7e14;" onclick="startScanner()">📷 START CAMERA SCANNER</button>
+        <button class="btn-main" style="background: #fd7e14;" onclick="runScanner()">📷 START CAMERA SCANNER</button>
     </div>
 
-    <div id="support" class="content-section">
-        <h4 style="margin:0;">📩 Official Support</h4>
-        <p style="font-size:13px; color:#555;">Email: <b>arifulcomputers00@gmail.com</b></p>
-        <a href="https://wa.me/8801572494460" class="wa-btn" target="_blank">Chat on WhatsApp</a>
-        <textarea id="sup_msg" style="margin-top:15px; height:80px;" placeholder="আপনার সমস্যাটি এখানে লিখুন..."></textarea>
-        <button class="action-btn" style="background: var(--success);" onclick="alert('Message Sent!')">Send Message</button>
+    <div id="u-tab" class="content">
+        <h3 style="margin-top:0;">📩 Support Center</h3>
+        <p>Email: <b>arifulcomputers00@gmail.com</b></p>
+        <a href="https://wa.me/8801572494460" class="btn-wa" target="_blank">Chat on WhatsApp</a>
+        <textarea style="margin-top:15px; height:80px;" placeholder="আপনার বার্তা লিখুন..."></textarea>
+        <button class="btn-main" style="background: var(--success);" onclick="alert('Sent!')">SEND MESSAGE</button>
     </div>
 
     <div style="padding: 0 20px;">
-        <div id="result-box">
-            <div id="mrz-text"></div>
-            <button class="action-btn copy-btn" onclick="copyText()">📋 CLICK TO COPY MRZ</button>
+        <div id="output-container">
+            <div id="mrz-display"></div>
+            <button id="copy-btn-real" class="btn-main btn-copy" onclick="doCopy()">📋 CLICK TO COPY MRZ</button>
         </div>
     </div>
 </div>
 
 <script>
-    function showTab(tabId, el) {
-        document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
-        document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-        document.getElementById(tabId).classList.add('active');
-        el.classList.add('active');
-        document.getElementById('result-box').style.display = 'none';
+    function openTab(evt, tabName) {
+        let content = document.getElementsByClassName("content");
+        for (let i = 0; i < content.length; i++) { content[i].style.display = "none"; }
+        let tabs = document.getElementsByClassName("tab-btn");
+        for (let i = 0; i < tabs.length; i++) { tabs[i].className = tabs[i].className.replace(" active", ""); }
+        document.getElementById(tabName).style.display = "block";
+        evt.currentTarget.className += " active";
+        document.getElementById('output-container').style.display = "none";
     }
 
-    function genPassport() {
-        const sn = (document.getElementById('p_surname').value || 'SPECIMEN').toUpperCase();
-        const gn = (document.getElementById('p_name').value || 'ARIFUL').toUpperCase();
-        const num = (document.getElementById('p_num').value || 'A00000000').toUpperCase();
-        const sex = document.getElementById('p_sex').value;
-        const dob = document.getElementById('p_dob').value || '950101';
-        const exp = document.getElementById('p_exp').value || '311231';
+    function makePassport() {
+        const sn = (document.getElementById('p_sn').value || 'ISLAM').toUpperCase();
+        const gn = (document.getElementById('p_gn').value || 'ARIFUL').toUpperCase();
+        const no = (document.getElementById('p_no').value || 'A0000000').toUpperCase();
+        const sx = document.getElementById('p_sx').value;
+        const db = document.getElementById('p_db').value || '950101';
+        const ex = document.getElementById('p_ex').value || '301231';
         
         let l1 = P<BGD${sn}<<${gn}.padEnd(44, '<').substring(0,44);
-        let l2 = ${num}<BGD${dob}${sex}${exp}${'<<<<<<<<<<<<<<'}.substring(0,44);
-        display(l1 + "\n" + l2);
+        let l2 = ${no}<BGD${db}${sx}${ex}${'<<<<<<<<<<<<<<'}.substring(0,44);
+        showOutput(l1 + "\n" + l2);
     }
 
-    function genID() {
-        const name = (document.getElementById('i_name_en').value || 'ARIFUL').toUpperCase().replace(/ /g, "<<");
-        const num = document.getElementById('i_num').value || '123456789';
-        let l1 = I<BGD${num}${'<<<<<<<<<<<<<<<'.substring(0, 30-num.length-5)}.substring(0,30);
-        let l2 = 9501017M3012317BGD<<<<<<<<<<<1.substring(0,30);
+    function makeID() {
+        const name = (document.getElementById('i_en').value || 'ARIFUL').toUpperCase().replace(/ /g, "<<");
+        const no = document.getElementById('i_no').value || '123456789';
+        const ct = document.getElementById('i_ct').value.toUpperCase();
+        
+        let l1 = I<${ct}${no}${'<<<<<<<<<<<<<<<<'.substring(0, 30-no.length-5)}.substring(0,30);
+        let l2 = 9501017M3012317${ct}<<<<<<<<<<<1.substring(0,30);
         let l3 = ${name}${'<<<<<<<<<<<<<<<<<<<<'}.substring(0,30);
-        display(l1 + "\n" + l2 + "\n" + l3);
+        showOutput(l1 + "\n" + l2 + "\n" + l3);
     }
 
-    function display(m) {
-        document.getElementById('mrz-text').innerText = m;
-        document.getElementById('result-box').style.display = 'block';
+    function showOutput(text) {
+        document.getElementById('mrz-display').innerText = text;
+        document.getElementById('output-container').style.display = "block";
+        document.getElementById('copy-btn-real').style.display = "block";
         window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
     }
 
-    function copyText() {
-        navigator.clipboard.writeText(document.getElementById('mrz-text').innerText);
-        alert("MRZ Copied!");
+    function doCopy() {
+        const text = document.getElementById('mrz-display').innerText;
+        navigator.clipboard.writeText(text).then(() => {
+            alert("MRZ কোডটি কপি করা হয়েছে!");
+        });
     }
 
-    function startScanner() {
-        const html5QrCode = new Html5Qrcode("reader");
-        html5QrCode.start({ facingMode: "environment" }, { fps: 10, qrbox: 250 },
-            (txt) => { alert("Result: " + txt); html5QrCode.stop(); },
-            (err) => {}
-        ).catch(() => alert("Camera error or permission denied."));
+    function runScanner() {
+        const scanner = new Html5QrcodeScanner("reader", { fps: 10, qrbox: 250 });
+        scanner.render((txt) => { alert("Result: " + txt); scanner.clear(); });
     }
 </script>
 </body>

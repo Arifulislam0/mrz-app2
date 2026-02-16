@@ -3,70 +3,89 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Arifulcom Speed Pro</title>
+    <title>Ariful Universal MRZ Generator</title>
     <style>
-        :root { --blue: #007bff; --dark: #1a1a1a; --green: #25D366; }
-        body { font-family: 'Segoe UI', Arial, sans-serif; background: #f0f2f5; margin: 0; padding: 10px; display: flex; justify-content: center; }
-        .main-card { width: 100%; max-width: 850px; background: #fff; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); overflow: hidden; }
+        :root { --blue: #3498db; --dark-bg: #1a1a1a; --neon: #00ff00; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; background: #f4f7f9; margin: 0; padding: 15px; display: flex; justify-content: center; }
+        .container { width: 100%; max-width: 850px; background: #fff; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); padding: 25px; position: relative; }
         
-        header { background: var(--dark); color: #fff; padding: 10px; text-align: center; border-bottom: 3px solid var(--blue); }
-        .grid-inputs { padding: 15px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
-        @media (max-width: 768px) { .grid-inputs { grid-template-columns: 1fr 1fr; } }
+        /* Top Support / Branding */
+        .top-bar { text-align: center; margin-bottom: 20px; border-bottom: 2px solid #eee; padding-bottom: 15px; }
+        .top-bar h2 { color: #2c3e50; margin: 0; font-size: 26px; display: flex; align-items: center; justify-content: center; gap: 10px; }
+        .top-bar p { font-size: 13px; color: #666; margin: 5px 0 0; font-weight: 500; }
+
+        .grid-inputs { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-top: 20px; }
+        @media (max-width: 600px) { .grid-inputs { grid-template-columns: 1fr; } }
         
-        .input-group { display: flex; flex-direction: column; }
-        label { font-size: 10px; font-weight: bold; color: #555; margin-bottom: 2px; text-transform: uppercase; }
-        input, select { padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 13px; outline: none; box-sizing: border-box; width: 100%; }
-        input:focus { border-color: var(--blue); }
+        label { display: block; font-size: 13px; font-weight: 700; color: #444; margin-bottom: 5px; }
+        input, select { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; font-size: 14px; transition: 0.3s; }
+        input:focus { border-color: var(--blue); outline: none; background: #fff; }
 
-        .action-area { padding: 0 15px 15px; }
-        .btn-gen { width: 100%; padding: 12px; background: var(--blue); color: #fff; border: none; border-radius: 6px; font-weight: bold; font-size: 15px; cursor: pointer; }
+        /* স্ক্রিনশটের মতো ডার্ক রেজাল্ট বক্স */
+        #result-display { margin-top: 25px; display: none; animation: fadeIn 0.5s; }
+        #mrz-text { background: var(--dark-bg); color: var(--neon); font-family: 'Courier New', monospace; padding: 25px; border-radius: 8px; font-size: 18px; line-height: 1.6; letter-spacing: 2px; text-align: center; word-break: break-all; margin-bottom: 15px; box-shadow: inset 0 0 15px rgba(0,0,0,0.6); }
+        
+        /* নীল কপি বাটন - হুবহু স্ক্রিনশটের মতো */
+        .btn-copy { width: 100%; padding: 16px; background: var(--blue); color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 18px; transition: 0.3s; box-shadow: 0 4px 10px rgba(52, 152, 219, 0.3); }
+        .btn-copy:hover { background: #2980b9; transform: translateY(-2px); }
 
-        /* অটোমেটিক রেজাল্ট ও কপি বক্স */
-        #result-display { margin: 15px; padding: 15px; background: #fdfdfd; border: 2px solid var(--blue); border-radius: 8px; display: none; text-align: center; }
-        #mrz-text { font-family: 'Courier New', monospace; font-size: 17px; font-weight: bold; background: #000; color: #00ff00; padding: 15px; border-radius: 4px; letter-spacing: 2px; line-height: 1.6; word-break: break-all; margin-bottom: 12px; }
-        .btn-copy { width: 100%; padding: 12px; background: #333; color: white; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; font-size: 14px; }
+        /* Bottom Support Card */
+        .bottom-support { margin-top: 30px; background: #fff9e6; border-radius: 10px; padding: 20px; border-left: 5px solid #f1c40f; text-align: center; }
+        .bottom-support h4 { margin: 0 0 10px; color: #856404; font-size: 16px; }
+        .bottom-support p { font-size: 13px; color: #666; line-height: 1.5; margin-bottom: 15px; }
+        .wa-btn { background: #25D366; color: white; text-decoration: none; padding: 10px 20px; border-radius: 25px; font-weight: bold; font-size: 14px; display: inline-flex; align-items: center; gap: 8px; transition: 0.3s; }
+        .wa-btn:hover { background: #128C7E; box-shadow: 0 4px 10px rgba(37, 211, 102, 0.3); }
 
-        .footer-support { background: #fff9e6; padding: 10px; text-align: center; border-top: 1px solid #ffeeba; }
-        .wa-btn { background: var(--green); color: white; text-decoration: none; padding: 8px 15px; border-radius: 20px; font-size: 12px; font-weight: bold; display: inline-block; margin-top: 5px; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
 <body>
 
-<div class="main-card">
-    <header>
-        <h4 style="margin:0;">Arifulcom Travel Pro</h4>
-    </header>
-
-    <div class="grid-inputs">
-        <div class="input-group"><label>Country (BGD)</label><input type="text" id="c_code" value="BGD"></div>
-        <div class="input-group"><label>Passport No</label><input type="text" id="p_no" placeholder="A01234567"></div>
-        <div class="input-group"><label>Surname</label><input type="text" id="p_sn" placeholder="ISLAM"></div>
-        <div class="input-group"><label>Given Name</label><input type="text" id="p_gn" placeholder="ARIFUL"></div>
-        <div class="input-group"><label>Birth (YYMMDD)</label><input type="text" id="p_dob" placeholder="950101"></div>
-        <div class="input-group"><label>Expiry (YYMMDD)</label><input type="text" id="p_exp" placeholder="301231"></div>
-        <div class="input-group"><label>Sex</label>
-            <select id="p_sex"><option value="M">Male (M)</option><option value="F">Female (F)</option></select>
-        </div>
-        <div class="input-group"><label>Personal No</label><input type="text" id="p_pn" placeholder="NID Number"></div>
+<div class="container">
+    <div class="top-bar">
+        <h2>🚀 Ariful Universal MRZ Generator</h2>
+        <p>নির্ভুল পাসপোর্ট ও ট্রাভেল ডকুমেন্ট প্রসেসিং টুল</p>
     </div>
 
-    <div class="action-area">
-        <button class="btn-gen" onclick="generateNow()">GENERATE MRZ NOW</button>
+    <div class="grid-inputs">
+        <div><label>দেশ কোড (যেমন: BGD)</label><input type="text" id="c_code" value="BGD" oninput="autoGen()"></div>
+        <div><label>পাসপোর্ট নম্বর</label><input type="text" id="p_no" placeholder="A12345678" oninput="autoGen()"></div>
+        
+        <div><label>SURNAME (বংশগত নাম)</label><input type="text" id="p_sn" placeholder="ISLAM" oninput="autoGen()"></div>
+        <div><label>GIVEN NAME (প্রথম নাম)</label><input type="text" id="p_gn" placeholder="ARIFUL" oninput="autoGen()"></div>
+        
+        <div><label>জন্ম তারিখ (YYMMDD)</label><input type="text" id="p_dob" placeholder="950520" oninput="autoGen()"></div>
+        <div><label>লিঙ্গ (Sex)</label>
+            <select id="p_sex" onchange="autoGen()">
+                <option value="M">Male (M)</option>
+                <option value="F">Female (F)</option>
+            </select>
+        </div>
+        
+        <div><label>মেয়াদ (YYMMDD)</label><input type="text" id="p_exp" placeholder="350520" oninput="autoGen()"></div>
+        <div><label>পারসোনাল নম্বর / NID</label><input type="text" id="p_pn" placeholder="1234567890" oninput="autoGen()"></div>
     </div>
 
     <div id="result-display">
         <div id="mrz-text"></div>
-        <button class="btn-copy" onclick="copyResult()">📋 CLICK TO COPY MRZ</button>
+        <button class="btn-copy" onclick="copyResult()">📋 কপি রেজাল্ট</button>
     </div>
 
-    <div class="footer-support">
-        <p style="margin:0; font-size:14px; color: #856404; font-weight: bold;">আমাদের সার্ভিসটি ভালো লাগলে সাপোর্ট করুন 🤝</p>
-        <a href="https://wa.me/8801572494460" class="wa-btn" target="_blank">WhatsApp Support</a>
+    <div class="bottom-support">
+        <h4>প্রিয় ইউজার, আমরা আপনার পাশে! 🤝</h4>
+        <p>আমাদের টুলটি আপনার কাজের গতি বাড়াতে সাহায্য করলে আমরা সার্থক। আপনার যেকোনো পরামর্শ বা নতুন ফিচারের প্রয়োজন হলে সরাসরি আমাদের হোয়াটসঅ্যাপে জানান। আপনার সন্তুষ্টিই আমাদের লক্ষ্য।</p>
+        <a href="https://wa.me/8801572494460" class="wa-btn" target="_blank">
+            WhatsApp এ সাপোর্ট পান
+        </a>
+    </div>
+
+    <div style="text-align: center; margin-top: 15px; font-size: 11px; color: #aaa;">
+        © 2026 Ariful Travel Master | All Rights Reserved
     </div>
 </div>
 
 <script>
-    function generateNow() {
+    function autoGen() {
         const c = document.getElementById('c_code').value.toUpperCase() || 'BGD';
         const n = document.getElementById('p_no').value.toUpperCase() || 'A0000000';
         const s = document.getElementById('p_sn').value.toUpperCase() || '';
@@ -76,14 +95,16 @@
         const x = document.getElementById('p_sex').value;
         const p = document.getElementById('p_pn').value.toUpperCase() || '';
 
+        // ICAO Doc 9303 Standard Logic
         let line1 = P<${c}${s}<<${g}.padEnd(44, '<').substring(0, 44);
         let line2 = ${n}<${c}${d}${x}${e}${p}${'<<<<<<<<<<<<<<<<<<<<'}.substring(0, 44);
 
         document.getElementById('mrz-text').innerText = line1 + "\n" + line2;
-        document.getElementById('result-display').style.display = 'block';
         
-        // রেজাল্ট আসার পর নিচের দিকে অটো স্ক্রল করবে
-        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+        // তথ্য টাইপ করলে অটো রেজাল্ট দেখাবে
+        if(n.length > 2 || s.length > 2) {
+            document.getElementById('result-display').style.display = 'block';
+        }
     }
 
     function copyResult() {
@@ -92,6 +113,9 @@
             alert("সফলভাবে কপি হয়েছে! ✅");
         });
     }
+    
+    // পেজ খোলার পর অটো লোড হবে
+    window.onload = autoGen;
 </script>
 </body>
 </html>

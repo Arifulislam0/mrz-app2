@@ -1,51 +1,90 @@
-<!DOCTYPE html>
+[10:24 AM, 2/16/2026] Ariful Com: <!DOCTYPE html>
 <html lang="bn">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ariful Universal MRZ Generator</title>
     <style>
-        body { font-family: 'Segoe UI', Arial, sans-serif; background: #f4f7f9; margin: 0; padding: 15px; display: flex; justify-content: center; }
-        .container { width: 100%; max-width: 850px; background: #fff; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); padding: 25px; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; background: #f0f2f5; margin: 0; padding: 10px; display: flex; justify-content: center; }
+        .container { width: 100%; max-width: 800px; background: #fff; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); padding: 20px; border-top: 5px solid #3498db; }
         
-        /* হেডার ডিজাইন */
-        .top-bar { text-align: center; margin-bottom: 20px; border-bottom: 2px solid #eee; padding-bottom: 15px; }
-        .top-bar h2 { color: #2c3e50; margin: 0; font-size: 24px; }
-        .top-bar p { font-size: 13px; color: #666; margin-top: 5px; }
+        .top-support-bar { background: #f8f9fa; padding: 10px; border-radius: 5px; text-align: center; border: 1px solid #ddd; margin-bottom: 20px; font-size: 14px; font-weight: bold; color: #333; }
+        .header { text-align: …
+[10:25 AM, 2/16/2026] Ariful Com: ুুহ
+[10:25 AM, 2/16/2026] Ariful Com: <!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ariful Universal MRZ Generator</title>
+    <style>
+        body { font-family: 'Segoe UI', Arial, sans-serif; background: #f0f2f5; margin: 0; padding: 10px; display: flex; justify-content: center; }
+        .container { width: 100%; max-width: 800px; background: #fff; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); padding: 20px; border-top: 5px solid #3498db; }
+        
+        .top-support-bar { background: #f8f9fa; padding: 10px; border-radius: 5px; text-align: center; border: 1px solid #ddd; margin-bottom: 20px; font-size: 14px; font-weight: bold; color: #333; }
+        .header { text-align: center; margin-bottom: 20px; }
+        .header h2 { color: #0056b3; margin: 0; font-size: 22px; }
 
-        /* ইনপুট গ্রিড */
-        .grid-inputs { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-top: 10px; }
+        .grid-inputs { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 20px; }
         @media (max-width: 600px) { .grid-inputs { grid-template-columns: 1fr; } }
         
-        label { display: block; font-size: 13px; font-weight: bold; color: #444; margin-bottom: 5px; }
-        input, select { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; font-size: 14px; }
+        label { display: block; font-size: 12px; font-weight: bold; color: #555; margin-bottom: 3px; }
+        input, select { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; font-size: 14px; }
 
-        /* আপনার স্ক্রিনশটের মতো ডার্ক রেজাল্ট বক্স */
-        .result-area { margin-top: 25px; }
-        #mrz-text { background: #1a1a1a; color: #00ff00; font-family: 'Courier New', monospace; padding: 20px; border-radius: 8px; font-size: 18px; line-height: 1.6; letter-spacing: 2px; text-align: center; word-break: break-all; min-height: 60px; box-shadow: inset 0 0 15px rgba(0,0,0,0.5); }
+        /* ফলাফল বক্স - আপনার স্ক্রিনশটের মতো ডার্ক ডিজাইন */
+        .result-box-area { margin-top: 20px; border-radius: 8px; overflow: hidden; }
+        #mrz-output { 
+            background: #000; 
+            color: #00ff00; 
+            font-family: 'Courier New', monospace; 
+            padding: 20px; 
+            font-size: 18px; 
+            line-height: 1.5; 
+            letter-spacing: 2px; 
+            text-align: center; 
+            word-break: break-all; 
+            min-height: 50px;
+            white-space: pre-line;
+        }
         
-        /* নীল কপি বাটন */
-        .btn-copy { width: 100%; padding: 16px; background: #3498db; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 18px; margin-top: 10px; transition: 0.3s; }
-        .btn-copy:hover { background: #2980b9; }
+        /* নীল কপি বাটন - হুবহু স্ক্রিনশটের মতো */
+        .btn-copy-blue { 
+            width: 100%; 
+            padding: 15px; 
+            background: #3498db; 
+            color: white; 
+            border: none; 
+            cursor: pointer; 
+            font-weight: bold; 
+            font-size: 18px; 
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        .btn-copy-blue:hover { background: #2980b9; }
 
-        /* নিচের সাপোর্ট বক্স */
-        .bottom-support { margin-top: 30px; background: #fff9e6; border-radius: 10px; padding: 20px; border-left: 5px solid #f1c40f; text-align: center; }
+        .support-card { margin-top: 30px; background: #fff9e6; border-radius: 10px; padding: 20px; border-left: 5px solid #f1c40f; text-align: center; }
         .wa-btn { background: #25D366; color: white; text-decoration: none; padding: 10px 20px; border-radius: 25px; font-weight: bold; display: inline-block; margin-top: 10px; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <div class="top-bar">
+    <div class="top-support-bar">
+        সাপোর্ট নম্বর: +8801572494460 | নির্ভুল MRZ তৈরির নির্ভরযোগ্য মাধ্যম
+    </div>
+
+    <div class="header">
         <h2>🚀 Ariful Universal MRZ Generator</h2>
-        <p>নির্ভুল পাসপোর্ট ও ট্রাভেল ডকুমেন্ট প্রসেসিং টুল</p>
     </div>
 
     <div class="grid-inputs">
-        <div><label>দেশ কোড (BGD)</label><input type="text" id="c_code" value="BGD"></div>
+        <div><label>দেশ কোড (যেমন: BGD)</label><input type="text" id="c_code" value="BGD"></div>
         <div><label>পাসপোর্ট নম্বর</label><input type="text" id="p_no" placeholder="A12345678"></div>
-        <div><label>SURNAME (বংশগত নাম)</label><input type="text" id="p_sn" placeholder="ISLAM"></div>
-        <div><label>GIVEN NAME (প্রথম নাম)</label><input type="text" id="p_gn" placeholder="ARIFUL"></div>
+        <div><label>SURNAME (পদবী)</label><input type="text" id="p_sn" placeholder="ISLAM"></div>
+        <div><label>GIVEN NAME (নাম)</label><input type="text" id="p_gn" placeholder="ARIFUL"></div>
         <div><label>জন্ম তারিখ (YYMMDD)</label><input type="text" id="p_dob" placeholder="950520"></div>
         <div><label>লিঙ্গ</label>
             <select id="p_sex">
@@ -54,23 +93,23 @@
             </select>
         </div>
         <div><label>মেয়াদ (YYMMDD)</label><input type="text" id="p_exp" placeholder="350520"></div>
-        <div><label>পারসোনাল নম্বর</label><input type="text" id="p_pn" placeholder="1234567890"></div>
+        <div><label>পারসোনাল নম্বর/NID</label><input type="text" id="p_pn" placeholder="1234567890"></div>
     </div>
 
-    <div class="result-area">
-        <div id="mrz-text">টাইপ করা শুরু করুন...</div>
-        <button class="btn-copy" onclick="copyResult()">📋 কপি রেজাল্ট</button>
+    <div class="result-box-area">
+        <div id="mrz-output">টাইপ করা শুরু করুন...</div>
+        <button class="btn-copy-blue" onclick="forceCopy()">📋 কপি রেজাল্ট</button>
     </div>
 
-    <div class="bottom-support">
-        <p style="margin:0; font-size:14px; font-weight:bold;">আপনার কোনো সমস্যা বা পরামর্শ থাকলে আমাদের জানান 🤝</p>
+    <div class="support-card">
+        <p style="margin:0; font-size:14px; font-weight:bold;">আমাদের সেবাটি ভালো লাগলে সাপোর্ট করুন 🤝</p>
         <a href="https://wa.me/8801572494460" class="wa-btn" target="_blank">WhatsApp Support</a>
     </div>
 </div>
 
 <script>
-    // অটো জেনারেট ফাংশন
-    function updateMRZ() {
+    // অটো জেনারেট লজিক
+    function generate() {
         const c = (document.getElementById('c_code').value || 'BGD').toUpperCase();
         const n = (document.getElementById('p_no').value || '').toUpperCase();
         const s = (document.getElementById('p_sn').value || '').toUpperCase();
@@ -80,36 +119,40 @@
         const x = document.getElementById('p_sex').value;
         const p = (document.getElementById('p_pn').value || '').toUpperCase();
 
-        let line1 = P<${c}${s}<<${g}.padEnd(44, '<').substring(0, 44);
-        let line2 = ${n}<${c}${d}${x}${e}${p}${'<<<<<<<<<<<<<<<<<<<<'}.substring(0, 44);
+        let l1 = P<${c}${s}<<${g}.padEnd(44, '<').substring(0, 44);
+        let l2 = ${n}<${c}${d}${x}${e}${p}${'<<<<<<<<<<<<<<<<<<<<'}.substring(0, 44);
 
-        document.getElementById('mrz-text').innerText = line1 + "\n" + line2;
+        document.getElementById('mrz-output').innerText = l1 + "\n" + l2;
     }
 
-    // সব ইনপুট ফিল্ডে ইভেন্ট লিসেনার যোগ করা
-    document.querySelectorAll('input, select').forEach(element => {
-        element.addEventListener('input', updateMRZ);
+    // ইনপুট টাইপ করার সাথে সাথে কাজ করবে
+    document.querySelectorAll('input, select').forEach(el => {
+        el.addEventListener('input', generate);
     });
 
-    // কপি করার ফাংশন
-    function copyResult() {
-        const text = document.getElementById('mrz-text').innerText;
-        navigator.clipboard.writeText(text).then(() => {
-            alert("সফলভাবে কপি হয়েছে! ✅");
-        }).catch(err => {
-            // যদি ক্লিপবোর্ড কাজ না করে তবে ব্যাকআপ পদ্ধতি
-            const el = document.createElement('textarea');
-            el.value = text;
-            document.body.appendChild(el);
-            el.select();
+    // ১০০% গ্যারান্টি কপি ফাংশন
+    function forceCopy() {
+        const text = document.getElementById('mrz-output').innerText;
+        
+        // ব্যাকআপ কপি মেথড (সব ডিভাইসে কাজ করবে)
+        const textarea = document.createElement("textarea");
+        textarea.value = text;
+        document.body.appendChild(textarea);
+        textarea.select();
+        textarea.setSelectionRange(0, 99999); // মোবাইলের জন্য
+
+        try {
             document.execCommand('copy');
-            document.body.removeChild(el);
             alert("সফলভাবে কপি হয়েছে! ✅");
-        });
+        } catch (err) {
+            alert("কপি ব্যর্থ হয়েছে। অনুগ্রহ করে ম্যানুয়ালি কপি করুন।");
+        }
+        
+        document.body.removeChild(textarea);
     }
 
     // পেজ লোড হলে একবার চালু হবে
-    window.onload = updateMRZ;
+    window.onload = generate;
 </script>
 </body>
 </html>

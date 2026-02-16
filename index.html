@@ -5,44 +5,40 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ariful Universal MRZ Generator</title>
     <style>
-        body { font-family: 'Segoe UI', Arial, sans-serif; background: #f0f2f5; margin: 0; padding: 15px; display: flex; justify-content: center; }
-        .container { width: 100%; max-width: 800px; background: #fff; border-radius: 10px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); padding: 20px; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; background: #f4f7f9; margin: 0; padding: 15px; display: flex; justify-content: center; }
+        .container { width: 100%; max-width: 850px; background: #fff; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); padding: 25px; }
         
-        /* হেডার ও সাপোর্ট */
-        .top-support { text-align: center; background: #e7f3ff; padding: 10px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #b6d4fe; }
-        .header { text-align: center; margin-bottom: 20px; }
-        .header h2 { color: #0056b3; margin: 0; font-size: 24px; }
+        /* হেডার ডিজাইন */
+        .top-bar { text-align: center; margin-bottom: 20px; border-bottom: 2px solid #eee; padding-bottom: 15px; }
+        .top-bar h2 { color: #2c3e50; margin: 0; font-size: 24px; }
+        .top-bar p { font-size: 13px; color: #666; margin-top: 5px; }
 
         /* ইনপুট গ্রিড */
-        .grid-inputs { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 15px; }
+        .grid-inputs { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-top: 10px; }
         @media (max-width: 600px) { .grid-inputs { grid-template-columns: 1fr; } }
         
-        label { display: block; font-size: 12px; font-weight: bold; color: #444; margin-bottom: 4px; }
-        input, select { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; font-size: 14px; background: #fff; }
-        input:focus { border-color: #3498db; outline: none; box-shadow: 0 0 5px rgba(52,152,219,0.3); }
+        label { display: block; font-size: 13px; font-weight: bold; color: #444; margin-bottom: 5px; }
+        input, select { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; font-size: 14px; }
 
-        /* রেজাল্ট বক্স - হুবহু আপনার স্ক্রিনশটের মতো */
-        .result-container { margin-top: 20px; }
-        #mrz-text { background: #1a1a1a; color: #00ff00; font-family: 'Courier New', monospace; padding: 20px; border-radius: 6px; font-size: 17px; line-height: 1.6; letter-spacing: 2.5px; text-align: center; word-break: break-all; min-height: 60px; border: 2px solid #333; }
+        /* আপনার স্ক্রিনশটের মতো ডার্ক রেজাল্ট বক্স */
+        .result-area { margin-top: 25px; }
+        #mrz-text { background: #1a1a1a; color: #00ff00; font-family: 'Courier New', monospace; padding: 20px; border-radius: 8px; font-size: 18px; line-height: 1.6; letter-spacing: 2px; text-align: center; word-break: break-all; min-height: 60px; box-shadow: inset 0 0 15px rgba(0,0,0,0.5); }
         
-        /* কপি বাটন - হুবহু নীল কালার */
-        .btn-copy { width: 100%; padding: 15px; background: #3498db; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 18px; margin-top: 10px; transition: 0.2s; }
-        .btn-copy:active { background: #2980b9; transform: scale(0.98); }
+        /* নীল কপি বাটন */
+        .btn-copy { width: 100%; padding: 16px; background: #3498db; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 18px; margin-top: 10px; transition: 0.3s; }
+        .btn-copy:hover { background: #2980b9; }
 
         /* নিচের সাপোর্ট বক্স */
-        .bottom-support { margin-top: 25px; padding: 15px; background: #fff9e6; border-radius: 8px; border-left: 5px solid #f1c40f; text-align: center; }
+        .bottom-support { margin-top: 30px; background: #fff9e6; border-radius: 10px; padding: 20px; border-left: 5px solid #f1c40f; text-align: center; }
         .wa-btn { background: #25D366; color: white; text-decoration: none; padding: 10px 20px; border-radius: 25px; font-weight: bold; display: inline-block; margin-top: 10px; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <div class="top-support">
-        <strong>সাপোর্ট নম্বর:</strong> +8801572494460 | নির্ভুল MRZ তৈরির নির্ভরযোগ্য মাধ্যম
-    </div>
-
-    <div class="header">
+    <div class="top-bar">
         <h2>🚀 Ariful Universal MRZ Generator</h2>
+        <p>নির্ভুল পাসপোর্ট ও ট্রাভেল ডকুমেন্ট প্রসেসিং টুল</p>
     </div>
 
     <div class="grid-inputs">
@@ -61,8 +57,8 @@
         <div><label>পারসোনাল নম্বর</label><input type="text" id="p_pn" placeholder="1234567890"></div>
     </div>
 
-    <div class="result-container">
-        <div id="mrz-text">P&lt;BGD<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<</div>
+    <div class="result-area">
+        <div id="mrz-text">টাইপ করা শুরু করুন...</div>
         <button class="btn-copy" onclick="copyResult()">📋 কপি রেজাল্ট</button>
     </div>
 
@@ -84,34 +80,32 @@
         const x = document.getElementById('p_sex').value;
         const p = (document.getElementById('p_pn').value || '').toUpperCase();
 
-        // Line 1: P<CODE(Surname)<<(GivenName)
         let line1 = P<${c}${s}<<${g}.padEnd(44, '<').substring(0, 44);
-        // Line 2: (PassportNo)<(Code)(DOB)(Sex)(Expiry)(PersonalNo)
         let line2 = ${n}<${c}${d}${x}${e}${p}${'<<<<<<<<<<<<<<<<<<<<'}.substring(0, 44);
 
         document.getElementById('mrz-text').innerText = line1 + "\n" + line2;
     }
 
-    // ইনপুট ফিল্ডে টাইপ করলেই ফাংশন কল হবে
-    const inputs = document.querySelectorAll('input, select');
-    inputs.forEach(input => {
-        input.addEventListener('input', updateMRZ);
+    // সব ইনপুট ফিল্ডে ইভেন্ট লিসেনার যোগ করা
+    document.querySelectorAll('input, select').forEach(element => {
+        element.addEventListener('input', updateMRZ);
     });
 
-    // কপি ফাংশন
+    // কপি করার ফাংশন
     function copyResult() {
         const text = document.getElementById('mrz-text').innerText;
-        const tempTextArea = document.createElement("textarea");
-        tempTextArea.value = text;
-        document.body.appendChild(tempTextArea);
-        tempTextArea.select();
-        try {
-            document.execCommand('copy');
+        navigator.clipboard.writeText(text).then(() => {
             alert("সফলভাবে কপি হয়েছে! ✅");
-        } catch (err) {
-            alert("কপি করা সম্ভব হয়নি। অনুগ্রহ করে ম্যানুয়ালি কপি করুন।");
-        }
-        document.body.removeChild(tempTextArea);
+        }).catch(err => {
+            // যদি ক্লিপবোর্ড কাজ না করে তবে ব্যাকআপ পদ্ধতি
+            const el = document.createElement('textarea');
+            el.value = text;
+            document.body.appendChild(el);
+            el.select();
+            document.execCommand('copy');
+            document.body.removeChild(el);
+            alert("সফলভাবে কপি হয়েছে! ✅");
+        });
     }
 
     // পেজ লোড হলে একবার চালু হবে

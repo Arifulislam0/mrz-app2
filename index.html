@@ -3,87 +3,102 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Arifulcom Speed Tool</title>
+    <title>Arifulcom Speed Pro</title>
     <style>
-        :root { --blue: #007bff; --dark: #1a1a1a; --success: #28a745; }
-        body { font-family: 'Segoe UI', Arial, sans-serif; background: #eef2f5; margin: 0; padding: 10px; }
-        .wrapper { max-width: 700px; margin: auto; background: #fff; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); overflow: hidden; }
+        :root { --blue: #007bff; --dark: #1a1a1a; --green: #25D366; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; background: #f0f2f5; margin: 0; padding: 10px; display: flex; justify-content: center; }
+        .main-card { width: 100%; max-width: 750px; background: #fff; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); overflow: hidden; }
         
-        header { background: var(--dark); color: #fff; padding: 12px; text-align: center; border-bottom: 3px solid var(--blue); }
-        .main-form { padding: 15px; display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; }
+        header { background: var(--dark); color: #fff; padding: 15px; text-align: center; border-bottom: 3px solid var(--blue); }
+        .grid-inputs { padding: 15px; display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px; }
         
-        .box { display: flex; flex-direction: column; }
-        label { font-size: 11px; font-weight: bold; margin-bottom: 3px; color: #555; }
-        input, select { padding: 8px; border: 1px solid #ccc; border-radius: 5px; font-size: 13px; outline: none; }
+        .input-group { display: flex; flex-direction: column; }
+        label { font-size: 11px; font-weight: bold; color: #555; margin-bottom: 3px; text-transform: uppercase; }
+        input, select { padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-size: 14px; outline: none; }
         input:focus { border-color: var(--blue); }
 
-        .btn-row { padding: 0 15px 15px; }
-        .gen-btn { width: 100%; padding: 12px; background: var(--blue); color: #fff; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 15px; }
-        
-        #res-box { margin: 15px; padding: 15px; background: #f8f9fa; border: 2px dashed var(--blue); border-radius: 8px; display: none; text-align: center; }
-        #mrz-text { font-family: 'Courier New', monospace; font-size: 17px; font-weight: bold; background: #000; color: #00ff00; padding: 15px; border-radius: 5px; margin-bottom: 10px; letter-spacing: 2px; }
-        .copy-btn { width: 100%; padding: 10px; background: #333; color: #fff; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; }
+        .action-area { padding: 0 15px 15px; text-align: center; }
+        .btn-gen { width: 100%; padding: 15px; background: var(--blue); color: #fff; border: none; border-radius: 8px; font-weight: bold; font-size: 16px; cursor: pointer; transition: 0.2s; }
+        .btn-gen:hover { background: #0056b3; }
 
-        .support { background: #fff9e6; padding: 15px; text-align: center; border-top: 1px solid #ffeeba; }
-        .wa-link { color: #fff; background: var(--success); text-decoration: none; padding: 8px 15px; border-radius: 20px; font-size: 12px; font-weight: bold; display: inline-block; margin-top: 5px; }
+        /* রেজাল্ট বক্স - এটি জেনারেট করার পর অটো আসবে */
+        #result-display { margin: 15px; padding: 15px; background: #f8f9fa; border: 2px solid var(--blue); border-radius: 10px; display: none; }
+        #mrz-text { font-family: 'Courier New', monospace; font-size: 18px; font-weight: bold; background: #000; color: #00ff00; padding: 20px; border-radius: 5px; letter-spacing: 2px; line-height: 1.6; word-break: break-all; margin-bottom: 15px; text-align: left; }
+        .btn-copy { width: 100%; padding: 12px; background: #333; color: white; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; font-size: 15px; }
+
+        .footer-support { background: #fff9e6; padding: 15px; text-align: center; border-top: 1px solid #ffeeba; }
+        .wa-btn { background: var(--green); color: white; text-decoration: none; padding: 10px 20px; border-radius: 30px; font-size: 13px; font-weight: bold; display: inline-block; margin-top: 5px; }
     </style>
 </head>
 <body>
 
-<div class="wrapper">
+<div class="main-card">
     <header>
         <h3 style="margin:0;">Arifulcom Travel Pro</h3>
+        <small style="color: #ffc107;">International Standard Passport MRZ Generator</small>
     </header>
 
-    <div class="main-form">
-        <div class="box"><label>COUNTRY (BGD)</label><input type="text" id="c_code" value="BGD"></div>
-        <div class="box"><label>PASSPORT NO</label><input type="text" id="p_no" placeholder="A0000000"></div>
-        <div class="box"><label>SURNAME</label><input type="text" id="p_sn" placeholder="ISLAM"></div>
-        <div class="box"><label>GIVEN NAME</label><input type="text" id="p_gn" placeholder="ARIFUL"></div>
-        <div class="box"><label>BIRTH (YYMMDD)</label><input type="text" id="p_dob" placeholder="950101"></div>
-        <div class="box"><label>EXPIRY (YYMMDD)</label><input type="text" id="p_exp" placeholder="301231"></div>
-        <div class="box"><label>SEX</label>
-            <select id="p_sex"><option value="M">Male</option><option value="F">Female</option></select>
+    <div class="grid-inputs">
+        <div class="input-group"><label>Country (BGD)</label><input type="text" id="c_code" value="BGD"></div>
+        <div class="input-group"><label>Passport No</label><input type="text" id="p_no" placeholder="A01234567"></div>
+        <div class="input-group"><label>Surname</label><input type="text" id="p_sn" placeholder="ISLAM"></div>
+        <div class="input-group"><label>Given Name</label><input type="text" id="p_gn" placeholder="ARIFUL"></div>
+        <div class="input-group"><label>Birth (YYMMDD)</label><input type="text" id="p_dob" placeholder="950101"></div>
+        <div class="input-group"><label>Expiry (YYMMDD)</label><input type="text" id="p_exp" placeholder="301231"></div>
+        <div class="input-group"><label>Sex</label>
+            <select id="p_sex"><option value="M">Male (M)</option><option value="F">Female (F)</option></select>
         </div>
-        <div class="box"><label>PERSONAL NO</label><input type="text" id="p_pn" placeholder="NID/PN"></div>
+        <div class="input-group"><label>Personal No</label><input type="text" id="p_pn" placeholder="NID Number"></div>
     </div>
 
-    <div class="btn-row">
-        <button class="gen-btn" onclick="gen()">GENERATE MRZ NOW</button>
+    <div class="action-area">
+        <button class="btn-gen" onclick="generateNow()">GENERATE MRZ NOW</button>
     </div>
 
-    <div id="res-box">
+    <div id="result-display">
         <div id="mrz-text"></div>
-        <button class="copy-btn" onclick="copy()">📋 CLICK TO COPY MRZ</button>
+        <button class="btn-copy" onclick="copyResult()">📋 CLICK TO COPY MRZ</button>
     </div>
 
-    <div class="support">
-        <p style="margin:0; font-size:13px; font-weight:bold;">আমাদের সেবা ভালো লাগলে সাপোর্ট করুন 🤝</p>
-        <a href="https://wa.me/8801572494460" class="wa-link" target="_blank">WhatsApp Support</a>
+    <div class="footer-support">
+        <p style="margin:0; font-size:14px; color: #856404; font-weight: bold;">আমাদের সার্ভিসটি ভালো লাগলে আমাদের সাপোর্ট করুন 🤝</p>
+        <p style="font-size: 12px; margin: 5px 0;">নির্ভুল পাসপোর্ট MRZ তৈরিতে আমরাই সেরা। যেকোনো সমস্যায় যোগাযোগ করুন।</p>
+        <a href="https://wa.me/8801572494460" class="wa-btn" target="_blank">WhatsApp Support</a>
     </div>
 </div>
 
 <script>
-    function gen() {
-        const c = document.getElementById('c_code').value.toUpperCase();
-        const n = document.getElementById('p_no').value.toUpperCase();
-        const s = document.getElementById('p_sn').value.toUpperCase();
-        const g = document.getElementById('p_gn').value.toUpperCase();
-        const d = document.getElementById('p_dob').value;
-        const e = document.getElementById('p_exp').value;
+    function generateNow() {
+        const c = document.getElementById('c_code').value.toUpperCase() || 'BGD';
+        const n = document.getElementById('p_no').value.toUpperCase() || 'A0000000';
+        const s = document.getElementById('p_sn').value.toUpperCase() || '';
+        const g = document.getElementById('p_gn').value.toUpperCase() || '';
+        const d = document.getElementById('p_dob').value || '000000';
+        const e = document.getElementById('p_exp').value || '000000';
         const x = document.getElementById('p_sex').value;
-        const p = document.getElementById('p_pn').value.toUpperCase();
+        const p = document.getElementById('p_pn').value.toUpperCase() || '';
 
-        let l1 = P<${c}${s}<<${g}.padEnd(44, '<').substring(0,44);
-        let l2 = ${n}<${c}${d}${x}${e}${p}${'<<<<<<<<<<<<<<<<<<<<'}.substring(0,44);
+        // ICAO Line 1: P<CODE(Surname)<<(GivenName)
+        let line1 = P<${c}${s}<<${g}.padEnd(44, '<').substring(0, 44);
+        // ICAO Line 2: (PassportNo)<(Code)(DOB)(Sex)(Expiry)(PersonalNo)
+        let line2 = ${n}<${c}${d}${x}${e}${p}${'<<<<<<<<<<<<<<<<<<<<'}.substring(0, 44);
 
-        document.getElementById('mrz-text').innerText = l1 + "\n" + l2;
-        document.getElementById('res-box').style.display = 'block';
+        const result = line1 + "\n" + line2;
+        
+        // রেজাল্ট দেখানো এবং স্ক্রল করা
+        const resBox = document.getElementById('result-display');
+        document.getElementById('mrz-text').innerText = result;
+        resBox.style.display = 'block';
+        
+        // রেজাল্ট আসার পর অটোমেটিক রেজাল্টের কাছে নিয়ে যাবে
+        resBox.scrollIntoView({ behavior: 'smooth' });
     }
 
-    function copy() {
-        navigator.clipboard.writeText(document.getElementById('mrz-text').innerText);
-        alert("কপি হয়েছে! ✅");
+    function copyResult() {
+        const text = document.getElementById('mrz-text').innerText;
+        navigator.clipboard.writeText(text).then(() => {
+            alert("সফলভাবে কপি হয়েছে! ✅");
+        });
     }
 </script>
 </body>

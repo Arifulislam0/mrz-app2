@@ -1,139 +1,121 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ariful Travel Pro - MRZ Generator</title>
+    <title>Arifulcom Travel Pro</title>
     <style>
-        :root { --blue: #007bff; --dark: #1a1a1a; --neon: #00ff00; }
-        body { font-family: 'Segoe UI', Arial, sans-serif; background: #f4f7f9; margin: 0; padding: 15px; display: flex; justify-content: center; }
-        .container { width: 100%; max-width: 900px; background: #fff; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); overflow: hidden; }
+        body { font-family: Arial, sans-serif; background: #f4f4f4; padding: 20px; display: flex; justify-content: center; }
+        .main-card { width: 100%; max-width: 850px; background: #fff; border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1); overflow: hidden; }
         
-        /* হেডার সেকশন - আপনার নামসহ */
-        .header { background: var(--dark); color: white; padding: 25px; text-align: center; border-bottom: 4px solid var(--blue); }
-        .header h1 { margin: 0; font-size: 28px; letter-spacing: 1px; }
-        .header p { margin: 5px 0 0; font-size: 14px; color: #aaa; }
+        /* আপনার নামসহ হেডার */
+        .header { background: #1a1a1a; color: white; padding: 15px; text-align: center; border-bottom: 3px solid #007bff; }
+        .header h2 { margin: 0; font-size: 22px; }
 
-        .form-body { padding: 25px; }
+        .form-content { padding: 20px; }
+        
+        /* ৮টি ঘর ২ লাইনে সাজানো */
+        .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 20px; }
+        @media (max-width: 600px) { .grid { grid-template-columns: 1fr 1fr; } }
+        
+        label { font-size: 11px; font-weight: bold; color: #333; display: block; margin-bottom: 2px; text-transform: uppercase; }
+        input, select { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; font-size: 13px; }
 
-        /* ৮টি ঘর ২ লাইনে সাজানো (প্রতি লাইনে ৪টি) */
-        .input-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-bottom: 25px; }
-        @media (max-width: 800px) { .input-grid { grid-template-columns: repeat(2, 1fr); } }
-
-        .field label { display: block; font-size: 11px; font-weight: bold; color: #666; text-transform: uppercase; margin-bottom: 5px; }
-        input, select { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; box-sizing: border-box; transition: 0.3s; }
-        input:focus { border-color: var(--blue); outline: none; box-shadow: 0 0 8px rgba(0,123,255,0.2); }
-
-        /* ফলাফল বক্স - যেখানে ২ লাইন আসবে */
-        .mrz-result-container { background: #000; padding: 25px; border-radius: 8px; border: 2px solid #333; margin-top: 10px; }
-        #mrz-output { color: var(--neon); font-family: 'Courier New', monospace; font-size: 20px; line-height: 1.6; letter-spacing: 3px; text-align: center; word-break: break-all; min-height: 64px; white-space: pre-line; }
-
+        /* কালো ফলাফল বক্স - সরাসরি ২ লাইন দেখাবে */
+        #result-box { 
+            background: #000; 
+            color: #00ff00; 
+            font-family: 'Courier New', monospace; 
+            padding: 20px; 
+            margin-top: 10px; 
+            border-radius: 4px; 
+            min-height: 50px; 
+            text-align: center; 
+            font-size: 18px; 
+            line-height: 1.5; 
+            letter-spacing: 2px;
+            white-space: pre-line;
+        }
+        
         /* নীল কপি বাটন */
-        .copy-btn { width: 100%; padding: 18px; background: var(--blue); color: white; border: none; font-size: 18px; font-weight: bold; cursor: pointer; text-transform: uppercase; transition: 0.3s; }
+        .copy-btn { width: 100%; padding: 15px; background: #007bff; color: white; border: none; cursor: pointer; font-weight: bold; font-size: 16px; margin-top: 10px; }
         .copy-btn:hover { background: #0056b3; }
 
-        /* সাপোর্ট কার্ড */
-        .footer-support { padding: 20px; text-align: center; background: #fff9e6; border-top: 1px solid #eee; }
-        .wa-btn { color: #25D366; text-decoration: none; font-weight: bold; border: 2px solid #25D366; padding: 8px 25px; border-radius: 30px; display: inline-block; margin-top: 10px; transition: 0.3s; }
-        .wa-btn:hover { background: #25D366; color: white; }
+        .support { text-align: center; padding: 15px; background: #fffbe6; font-size: 13px; border-top: 1px solid #ddd; }
     </style>
 </head>
 <body>
 
-<div class="container">
+<div class="main-card">
     <div class="header">
-        <h1>ARIUL TRAVEL PRO</h1>
-        <p>International Passport MRZ Generating System</p>
+        <h2>Arifulcom Travel Pro</h2>
     </div>
 
-    <div class="form-body">
-        <div class="input-grid">
-            <div class="field">
-                <label>Country Code</label>
-                <input type="text" id="cnt" value="BGD" maxlength="3" oninput="update()">
-            </div>
-            <div class="field">
-                <label>Passport No</label>
-                <input type="text" id="pno" placeholder="A12345678" oninput="update()">
-            </div>
-            <div class="field">
-                <label>Surname</label>
-                <input type="text" id="snm" placeholder="ISLAM" oninput="update()">
-            </div>
-            <div class="field">
-                <label>Given Name</label>
-                <input type="text" id="gnm" placeholder="ARIFUL" oninput="update()">
-            </div>
-            <div class="field">
-                <label>Birth Date (YYMMDD)</label>
-                <input type="text" id="dob" placeholder="950520" oninput="update()">
-            </div>
-            <div class="field">
-                <label>Sex</label>
-                <select id="sex" onchange="update()">
+    <div class="form-content">
+        <div class="grid">
+            <div><label>COUNTRY (BGD)</label><input type="text" id="c" value="BGD" oninput="mrz()"></div>
+            <div><label>PASSPORT NO</label><input type="text" id="n" placeholder="A12345678" oninput="mrz()"></div>
+            <div><label>SURNAME</label><input type="text" id="s" placeholder="ISLAM" oninput="mrz()"></div>
+            <div><label>GIVEN NAME</label><input type="text" id="g" placeholder="ARIFUL" oninput="mrz()"></div>
+            <div><label>BIRTH (YYMMDD)</label><input type="text" id="d" placeholder="950101" oninput="mrz()"></div>
+            <div><label>EXPIRY (YYMMDD)</label><input type="text" id="e" placeholder="301231" oninput="mrz()"></div>
+            <div><label>SEX</label>
+                <select id="x" onchange="mrz()">
                     <option value="M">Male (M)</option>
                     <option value="F">Female (F)</option>
                 </select>
             </div>
-            <div class="field">
-                <label>Expiry Date (YYMMDD)</label>
-                <input type="text" id="exp" placeholder="350520" oninput="update()">
-            </div>
-            <div class="field">
-                <label>Personal/NID No</label>
-                <input type="text" id="nid" placeholder="123456789" oninput="update()">
-            </div>
+            <div><label>PERSONAL NO</label><input type="text" id="p" placeholder="NID/PN" oninput="mrz()"></div>
         </div>
 
-        <div class="mrz-result-container">
-            <div id="mrz-output"></div>
-        </div>
+        <div id="result-box"></div>
+        <button class="copy-btn" onclick="copy()">কপি রেজাল্ট</button>
     </div>
 
-    <button class="copy-btn" onclick="copyMRZ()">📋 Copy MRZ Result</button>
-
-    <div class="footer-support">
-        <p style="margin:0; font-size:14px; color:#555;">সাপোর্ট নম্বর: +8801572494460 | আপনার পাশে সবসময়</p>
-        <a href="https://wa.me/8801572494460" class="wa-btn" target="_blank">WhatsApp Support</a>
+    <div class="support">
+        আমাদের সেবা ভালো লাগলে সাপোর্ট করুন 🤝<br>
+        <a href="https://wa.me/8801572494460" style="color:green; font-weight:bold; text-decoration:none;">WhatsApp Support</a>
     </div>
 </div>
 
 <script>
-    function update() {
-        // তথ্য সংগ্রহ
-        let c = (document.getElementById('cnt').value || 'BGD').toUpperCase();
-        let n = (document.getElementById('pno').value || '').toUpperCase();
-        let s = (document.getElementById('snm').value || '').toUpperCase();
-        let g = (document.getElementById('gnm').value || '').toUpperCase();
-        let d = document.getElementById('dob').value || '000000';
-        let x = document.getElementById('sex').value;
-        let e = document.getElementById('exp').value || '000000';
-        let p = (document.getElementById('nid').value || '').toUpperCase();
+    function mrz() {
+        var c = (document.getElementById('c').value || 'BGD').toUpperCase();
+        var n = (document.getElementById('n').value || '').toUpperCase();
+        var s = (document.getElementById('s').value || '').toUpperCase();
+        var g = (document.getElementById('g').value || '').toUpperCase();
+        var d = document.getElementById('d').value || '000000';
+        var e = document.getElementById('e').value || '000000';
+        var x = document.getElementById('x').value;
+        var p = (document.getElementById('p').value || '').toUpperCase();
 
-        // MRZ তৈরির সঠিক লজিক (ICAO Standard)
-        let line1 = P<${c}${s}<<${g}.padEnd(44, '<').substring(0, 44);
-        let line2 = ${n}<${c}${d}${x}${e}${p}${'<<<<<<<<<<<<<<<<<<<<'}.substring(0, 44);
+        // Line 1 Generation
+        var l1 = "P<" + c + s + "<<" + g;
+        while(l1.length < 44) l1 += "<";
+        l1 = l1.substring(0, 44);
 
-        // সরাসরি কালো বক্সে লেখা পাঠানো
-        document.getElementById('mrz-output').innerText = line1 + "\n" + line2;
+        // Line 2 Generation
+        var l2 = n + "<" + c + d + x + e + p;
+        while(l2.length < 44) l2 += "<";
+        l2 = l2.substring(0, 44);
+
+        document.getElementById('result-box').innerText = l1 + "\n" + l2;
     }
 
-    function copyMRZ() {
-        const text = document.getElementById('mrz-output').innerText;
-        if(!text) return;
-        
-        const area = document.createElement('textarea');
-        area.value = text;
-        document.body.appendChild(area);
-        area.select();
-        document.execCommand('copy');
-        document.body.removeChild(area);
-        alert("MRZ Copied! ✅");
+    function copy() {
+        var text = document.getElementById('result-box').innerText;
+        var temp = document.createElement("textarea");
+        document.body.appendChild(temp);
+        temp.value = text;
+        temp.select();
+        document.execCommand("copy");
+        document.body.removeChild(temp);
+        alert("সফলভাবে কপি হয়েছে! ✅");
     }
 
-    // পেজ ওপেন হওয়ার সাথে সাথে রান হবে
-    window.onload = update;
+    // পেজ লোড হলে একবার চালু হবে
+    window.onload = mrz;
 </script>
 
 </body>
-</html
+</html>

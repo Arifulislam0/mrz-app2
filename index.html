@@ -7,24 +7,24 @@
     <style>
         :root { --blue: #007bff; --dark: #1a1a1a; --green: #25D366; }
         body { font-family: 'Segoe UI', Arial, sans-serif; background: #f0f2f5; margin: 0; padding: 10px; display: flex; justify-content: center; }
-        .main-card { width: 100%; max-width: 800px; background: #fff; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); overflow: hidden; }
+        .main-card { width: 100%; max-width: 850px; background: #fff; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); overflow: hidden; }
         
         header { background: var(--dark); color: #fff; padding: 10px; text-align: center; border-bottom: 3px solid var(--blue); }
         .grid-inputs { padding: 15px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
-        @media (max-width: 600px) { .grid-inputs { grid-template-columns: 1fr 1fr; } }
+        @media (max-width: 768px) { .grid-inputs { grid-template-columns: 1fr 1fr; } }
         
         .input-group { display: flex; flex-direction: column; }
         label { font-size: 10px; font-weight: bold; color: #555; margin-bottom: 2px; text-transform: uppercase; }
-        input, select { padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 13px; outline: none; width: 100%; box-sizing: border-box; }
+        input, select { padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 13px; outline: none; box-sizing: border-box; width: 100%; }
         input:focus { border-color: var(--blue); }
 
-        .action-area { padding: 0 15px 15px; text-align: center; }
+        .action-area { padding: 0 15px 15px; }
         .btn-gen { width: 100%; padding: 12px; background: var(--blue); color: #fff; border: none; border-radius: 6px; font-weight: bold; font-size: 15px; cursor: pointer; }
 
-        /* অটোমেটিক রেজাল্ট বক্স */
-        #result-display { margin: 15px; padding: 15px; background: #f8f9fa; border: 2px solid var(--blue); border-radius: 8px; display: none; }
-        #mrz-text { font-family: 'Courier New', monospace; font-size: 16px; font-weight: bold; background: #000; color: #00ff00; padding: 15px; border-radius: 4px; letter-spacing: 2px; line-height: 1.5; word-break: break-all; margin-bottom: 10px; text-align: left; }
-        .btn-copy { width: 100%; padding: 10px; background: #333; color: white; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; }
+        /* অটোমেটিক রেজাল্ট ও কপি বক্স */
+        #result-display { margin: 15px; padding: 15px; background: #fdfdfd; border: 2px solid var(--blue); border-radius: 8px; display: none; text-align: center; }
+        #mrz-text { font-family: 'Courier New', monospace; font-size: 17px; font-weight: bold; background: #000; color: #00ff00; padding: 15px; border-radius: 4px; letter-spacing: 2px; line-height: 1.6; word-break: break-all; margin-bottom: 12px; }
+        .btn-copy { width: 100%; padding: 12px; background: #333; color: white; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; font-size: 14px; }
 
         .footer-support { background: #fff9e6; padding: 10px; text-align: center; border-top: 1px solid #ffeeba; }
         .wa-btn { background: var(--green); color: white; text-decoration: none; padding: 8px 15px; border-radius: 20px; font-size: 12px; font-weight: bold; display: inline-block; margin-top: 5px; }
@@ -38,14 +38,14 @@
     </header>
 
     <div class="grid-inputs">
-        <div class="input-group"><label>Country</label><input type="text" id="c_code" value="BGD"></div>
+        <div class="input-group"><label>Country (BGD)</label><input type="text" id="c_code" value="BGD"></div>
         <div class="input-group"><label>Passport No</label><input type="text" id="p_no" placeholder="A01234567"></div>
         <div class="input-group"><label>Surname</label><input type="text" id="p_sn" placeholder="ISLAM"></div>
         <div class="input-group"><label>Given Name</label><input type="text" id="p_gn" placeholder="ARIFUL"></div>
-        <div class="input-group"><label>Birth(YYMMDD)</label><input type="text" id="p_dob" placeholder="950101"></div>
-        <div class="input-group"><label>Expiry(YYMMDD)</label><input type="text" id="p_exp" placeholder="301231"></div>
+        <div class="input-group"><label>Birth (YYMMDD)</label><input type="text" id="p_dob" placeholder="950101"></div>
+        <div class="input-group"><label>Expiry (YYMMDD)</label><input type="text" id="p_exp" placeholder="301231"></div>
         <div class="input-group"><label>Sex</label>
-            <select id="p_sex"><option value="M">Male</option><option value="F">Female</option></select>
+            <select id="p_sex"><option value="M">Male (M)</option><option value="F">Female (F)</option></select>
         </div>
         <div class="input-group"><label>Personal No</label><input type="text" id="p_pn" placeholder="NID Number"></div>
     </div>
@@ -60,7 +60,7 @@
     </div>
 
     <div class="footer-support">
-        <p style="margin:0; font-size:13px; color: #856404; font-weight: bold;">আমাদের সার্ভিসটি ভালো লাগলে সাপোর্ট করুন 🤝</p>
+        <p style="margin:0; font-size:14px; color: #856404; font-weight: bold;">আমাদের সার্ভিসটি ভালো লাগলে সাপোর্ট করুন 🤝</p>
         <a href="https://wa.me/8801572494460" class="wa-btn" target="_blank">WhatsApp Support</a>
     </div>
 </div>
@@ -82,13 +82,15 @@
         document.getElementById('mrz-text').innerText = line1 + "\n" + line2;
         document.getElementById('result-display').style.display = 'block';
         
-        // রেজাল্ট আসার পর অটো স্ক্রল
+        // রেজাল্ট আসার পর নিচের দিকে অটো স্ক্রল করবে
         window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
     }
 
     function copyResult() {
-        navigator.clipboard.writeText(document.getElementById('mrz-text').innerText);
-        alert("সফলভাবে কপি হয়েছে! ✅");
+        const text = document.getElementById('mrz-text').innerText;
+        navigator.clipboard.writeText(text).then(() => {
+            alert("সফলভাবে কপি হয়েছে! ✅");
+        });
     }
 </script>
 </body>

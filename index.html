@@ -3,103 +3,152 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ariful Universal MRZ Generator - Live</title>
-    
+    <title>Ariful Universal MRZ Generator</title>
     <style>
-        :root { --main-bg: #0d1117; --card-bg: #161b22; --accent: #238636; --text: #c9d1d9; }
-        body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: var(--main-bg); color: var(--text); margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; }
-        .container { background: var(--card-bg); padding: 25px; border-radius: 12px; box-shadow: 0 8px 32px rgba(0,0,0,0.5); width: 100%; max-width: 500px; border: 1px solid #30363d; }
-        h2 { text-align: center; color: #58a6ff; margin-bottom: 20px; }
-        label { display: block; margin-top: 10px; font-size: 14px; color: #8b949e; }
-        input, select { width: 100%; padding: 12px; margin: 5px 0 15px 0; border: 1px solid #30363d; border-radius: 6px; background: #0d1117; color: white; box-sizing: border-box; font-size: 16px; }
-        button { width: 100%; background-color: var(--accent); color: white; padding: 15px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 16px; transition: 0.3s; }
-        button:hover { background-color: #2ea043; }
-        .mrz-result { background: #000; color: #00ff00; padding: 20px; border-radius: 6px; font-family: 'Courier New', monospace; margin-top: 25px; word-break: break-all; border: 1px solid #333; font-size: 15px; line-height: 1.6; letter-spacing: 2px; }
-        .ad-container { width: 100%; max-width: 500px; margin-top: 20px; padding: 15px; background: #21262d; border-radius: 8px; text-align: center; border: 1px dashed #444; }
-        .footer { margin-top: 30px; font-size: 12px; color: #8b949e; text-align: center; }
+        :root { --blue: #1a73e8; --dark: #121212; --green: #00ff41; }
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: #f8f9fa; display: flex; justify-content: center; padding: 20px; }
+        .container { background: white; padding: 25px; border-radius: 15px; box-shadow: 0 10px 40px rgba(0,0,0,0.1); width: 100%; max-width: 550px; }
+        h2 { text-align: center; color: var(--blue); margin-top: 0; font-size: 22px; border-bottom: 2px solid #f0f0f0; padding-bottom: 15px; margin-bottom: 20px;}
+        .row { display: flex; gap: 12px; margin-bottom: 12px; }
+        .field { flex: 1; display: flex; flex-direction: column; }
+        label { font-size: 11px; font-weight: bold; color: #666; margin-bottom: 3px; text-transform: uppercase; }
+        input, select { padding: 10px; border: 1.5px solid #ddd; border-radius: 6px; font-size: 14px; transition: 0.3s; }
+        input:focus { border-color: var(--blue); outline: none; background: #fdfdff; }
+        .result-area { margin-top: 20px; background: var(--dark); padding: 20px; border-radius: 10px; border: 2px solid #333; overflow-x: auto; }
+        .mrz-output { 
+            font-family: 'Courier New', Courier, monospace; 
+            color: var(--green); 
+            font-size: 14px; /* ছোট ফন্ট সাইজ */
+            font-weight: bold; 
+            letter-spacing: 2px; 
+            line-height: 1.8; 
+            text-align: left; 
+            white-space: pre; /* ফরম্যাট বজায় রাখার জন্য */
+        }
+        .copy-btn { background: var(--blue); color: white; border: none; padding: 12px; border-radius: 8px; width: 100%; margin-top: 15px; cursor: pointer; font-size: 16px; font-weight: bold; }
+        .copy-btn:hover { background: #1557b0; }
+        .hint { font-size: 10px; color: #999; text-align: center; margin-top: 10px; }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <h2>🚀 Universal MRZ Generator</h2>
-        
-        <label>Country Code (e.g., BGD)</label>
-        <input type="text" id="country" placeholder="BGD" maxlength="3">
-
-        <label>Passport Number</label>
-        <input type="text" id="passport" placeholder="Enter Passport No">
-
-        <label>Surname (বংশগত নাম)</label>
-        <input type="text" id="surname" placeholder="e.g., ISLAM">
-
-        <label>Given Name (নাম)</label>
-        <input type="text" id="givenName" placeholder="e.g., ARIFUL">
-
-        <label>Date of Birth (YYMMDD)</label>
-        <input type="text" id="dob" placeholder="e.g., 950520">
-
-        <label>Gender</label>
-        <select id="gender">
-            <option value="M">Male (M)</option>
-            <option value="F">Female (F)</option>
-        </select>
-
-        <label>Expiry Date (YYMMDD)</label>
-        <input type="text" id="expiry" placeholder="e.g., 301231">
-
-        <button onclick="generateMRZ()">Generate MRZ Now</button>
-
-        <div class="mrz-result" id="output">
-            P&lt;BGD<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<br>
-            <<<<<<<<<<<<0BGD<<<<<<<<<<<<<<0<<<<<<<<
+<div class="container">
+    <h2>🚀 Ariful Universal MRZ Generator</h2>
+    
+    <div class="row">
+        <div class="field" style="flex: 0.4;">
+            <label>দেশ কোড (যেমন: BGD)</label>
+            <input type="text" id="cc" maxlength="3" placeholder="BGD" oninput="generate()">
         </div>
-
-        <button style="margin-top: 15px; background-color: #21262d; border: 1px solid #30363d;" onclick="copyToClipboard()">Copy MRZ Code</button>
-    </div>
-
-    <div class="ad-container">
-        <p style="margin: 0 0 10px 0; font-size: 10px; color: #58a6ff;">ADVERTISEMENT</p>
-        <div id="banner-ad">
-            <p style="color: #444;">বিজ্ঞাপন এখানে লোড হবে</p>
+        <div class="field">
+            <label>পাসপোর্ট নম্বর</label>
+            <input type="text" id="pNo" maxlength="9" placeholder="A12345678" oninput="generate()">
         </div>
     </div>
 
-    <div class="footer">
-        Developed by Ariful | 100% Secure & Online
+    <div class="row">
+        <div class="field">
+            <label>Surname (বংশগত নাম)</label>
+            <input type="text" id="sn" placeholder="ISLAM" oninput="generate()">
+        </div>
+        <div class="field">
+            <label>Given Name (প্রথম নাম)</label>
+            <input type="text" id="gn" placeholder="ARIFUL" oninput="generate()">
+        </div>
     </div>
+
+    <div class="row">
+        <div class="field">
+            <label>জন্ম তারিখ (YYMMDD)</label>
+            <input type="text" id="dob" maxlength="6" placeholder="950520" oninput="generate()">
+        </div>
+        <div class="field">
+            <label>লিঙ্গ</label>
+            <select id="sex" onchange="generate()">
+                <option value="M">Male (M)</option>
+                <option value="F">Female (F)</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="field">
+            <label>মেয়াদ (YYMMDD)</label>
+            <input type="text" id="exp" maxlength="6" placeholder="350520" oninput="generate()">
+        </div>
+        <div class="field">
+            <label>পারসোনাল নম্বর</label>
+            <input type="text" id="pn" maxlength="15" placeholder="1234567890" oninput="generate()">
+        </div>
+    </div>
+
+    <div class="result-area">
+        <div id="mrzDisplay" class="mrz-output">টাইপ করা শুরু করুন...</div>
+    </div>
+
+    <button class="copy-btn" onclick="copyMRZ()">কপি রেজাল্ট</button>
+    <div class="hint">ডিজাইন ও ডেভেলপমেন্ট বাই: Ariful</div>
+</div>
 
 <script>
-    function generateMRZ() {
-        // ইনপুট ভ্যালু নেওয়া
-        const country = (document.getElementById('country').value || "BGD").toUpperCase().padEnd(3, '<');
-        const passport = (document.getElementById('passport').value || "A00000000").toUpperCase().replace(/\s/g, '').padEnd(9, '<');
-        const surname = (document.getElementById('surname').value || "SURNAME").toUpperCase().replace(/\s/g, '');
-        const givenName = (document.getElementById('givenName').value || "NAME").toUpperCase().replace(/\s/g, '');
-        const dob = (document.getElementById('dob').value || "000101").padEnd(6, '0');
-        const gender = document.getElementById('gender').value;
-        const expiry = (document.getElementById('expiry').value || "300101").padEnd(6, '0');
-
-        // লাইন ১ তৈরি (৪৩ ক্যারেক্টার + ১ টাইপ)
-        let nameField = (surname + "<<" + givenName).padEnd(39, '<');
-        let line1 = "P<" + country + nameField;
-        line1 = line1.substring(0, 44);
-
-        // লাইন ২ তৈরি
-        // চেক ডিজিট ক্যালকুলেশন এখানে সিম্পল রাখা হয়েছে, প্রফেশনাল কাজে < ব্যবহার হয়
-        let line2 = passport + "0" + country + dob + "0" + gender + expiry + "0" + "<<<<<<<<<<<<<<";
-        line2 = line2.substring(0, 44);
-        
-        // আউটপুট দেখানো
-        document.getElementById('output').innerHTML = line1 + "<br>" + line2;
+    function getWeight(str) {
+        const w = [7, 3, 1];
+        let sum = 0;
+        for (let i = 0; i < str.length; i++) {
+            let c = str[i];
+            let v = isNaN(c) ? (c === '<' ? 0 : c.charCodeAt(0) - 55) : parseInt(c);
+            sum += v * w[i % 3];
+        }
+        return sum % 10;
     }
 
-    function copyToClipboard() {
-        const text = document.getElementById('output').innerText;
+    function generate() {
+        const ccInput = document.getElementById('cc').value.toUpperCase() || "BGD";
+        const snInput = document.getElementById('sn').value.toUpperCase().replace(/\s/g, '<');
+        const gnInput = document.getElementById('gn').value.toUpperCase().replace(/\s/g, '<');
+        const pNoInput = document.getElementById('pNo').value.toUpperCase();
+        const dobInput = document.getElementById('dob').value;
+        const expInput = document.getElementById('exp').value;
+        const sex = document.getElementById('sex').value;
+        const pnInput = document.getElementById('pn').value.toUpperCase().replace(/\s/g, '<');
+
+        // পিলিং (Padding) লজিক
+        const cc = ccInput.padEnd(3, '<').substring(0,3);
+        const pNo = pNoInput.padEnd(9, '<').substring(0,9);
+        const dob = dobInput.padEnd(6, '<').substring(0,6);
+        const exp = expInput.padEnd(6, '<').substring(0,6);
+        const pn = pnInput.padEnd(14, '<').substring(0,14);
+
+        // --- Line 1 ---
+        // ফরম্যাট: P < দেশ < সারনেম << গিভেন নেম
+        let l1 = "P<" + cc + snInput + "<<" + gnInput;
+        l1 = l1.padEnd(44, '<').substring(0, 44);
+
+        // --- Line 2 ---
+        const c1 = getWeight(pNo);
+        const c2 = getWeight(dob.includes('<') ? "000000" : dob);
+        const c3 = getWeight(exp.includes('<') ? "000000" : exp);
+        const c4 = getWeight(pn);
+
+        // Composite Check Digit
+        const composite = pNo + c1 + dob + c2 + exp + c3 + pn + c4;
+        const cf = getWeight(composite);
+
+        let l2 = pNo + c1 + cc + dob + c2 + sex + exp + c3 + pn + c4 + cf;
+        l2 = l2.padEnd(44, '<').substring(0, 44);
+
+        document.getElementById('mrzDisplay').textContent = l1 + "\n" + l2;
+    }
+
+    function copyMRZ() {
+        const text = document.getElementById('mrzDisplay').textContent;
         navigator.clipboard.writeText(text).then(() => {
-            alert("MRZ কোড কপি হয়েছে!");
+            alert("MRZ কোডটি কপি হয়েছে!");
         });
     }
+
+    // শুরুতে একবার কল করা যাতে খালি বক্স দেখায়
+    generate();
 </script>
 
 </body>

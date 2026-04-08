@@ -3,91 +3,206 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ariful Universal MRZ Generator Pro</title>
+    <title>Ariful Universal MRZ Generator</title>
     <style>
-        :root { --primary: #007bff; --success: #28a745; --dark: #121212; }
-        body { font-family: sans-serif; background: #f0f2f5; display: flex; justify-content: center; padding: 20px; }
-        .card { background: white; width: 100%; max-width: 450px; padding: 25px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); text-align: center; }
-        .promo { color: #d93025; font-weight: bold; font-size: 0.8rem; margin-bottom: 20px; background: #fff1f0; padding: 10px; border-radius: 5px; }
-        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; text-align: left; }
-        .full { grid-column: span 2; }
-        label { font-size: 0.7rem; font-weight: bold; color: #666; display: block; margin-bottom: 4px; }
-        input, select { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; font-size: 0.9rem; }
-        .output-box { background: var(--dark); color: #00ff41; padding: 15px; border-radius: 8px; margin: 20px 0; font-family: monospace; font-size: 1.1rem; line-height: 1.4; letter-spacing: 1px; min-height: 50px; text-align: left; }
-        button { background: var(--success); color: white; border: none; padding: 12px; width: 100%; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 1rem; }
-        .footer { margin-top: 15px; font-size: 0.8rem; color: #888; }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .card {
+            background: #fff;
+            width: 100%;
+            max-width: 800px;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        h1 { font-size: 24px; color: #333; margin-bottom: 5px; text-transform: uppercase; }
+        .contact { color: #2563eb; font-weight: bold; margin-bottom: 20px; font-size: 14px; }
+        
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            text-align: left;
+            margin-bottom: 30px;
+        }
+        .input-box label {
+            display: block;
+            font-size: 11px;
+            font-weight: bold;
+            color: #666;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background: #fdfdfd;
+            font-size: 14px;
+            box-sizing: border-box;
+            text-transform: uppercase;
+        }
+        
+        .mrz-display {
+            background: #000;
+            color: #00ff00;
+            padding: 25px;
+            border-radius: 10px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 1.2rem;
+            letter-spacing: 3px;
+            line-height: 1.6;
+            min-height: 60px;
+            margin-bottom: 20px;
+            word-break: break-all;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+        }
+        button {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-size: 16px;
+        }
+        .btn-copy { background-color: #28a745; color: white; }
+        .btn-reset { background-color: #e44d26; color: white; }
+        
+        footer { margin-top: 20px; font-size: 12px; color: #888; }
     </style>
 </head>
 <body>
 
 <div class="card">
-    <h2 style="color:var(--primary); margin-top:0;">🚀 ARIFUL MRZ GEN PRO</h2>
-    <div class="promo">All KYC Services available. WhatsApp: +8801981071493</div>
+    <h1>Ariful Universal MRZ Generator</h1>
+    <div class="contact">WhatsApp: +8801981071493</div>
+    
+    <div class="grid-container">
+        <div class="input-box">
+            <label>Doc Type</label>
+            <input type="text" id="docType" value="P" maxlength="1">
+        </div>
+        <div class="input-box">
+            <label>Country Code</label>
+            <input type="text" id="countryCode" placeholder="BGD" maxlength="3">
+        </div>
+        <div class="input-box">
+            <label>Passport No</label>
+            <input type="text" id="passportNo" placeholder="EP0937651" oninput="updateMRZ()">
+        </div>
 
-    <div class="grid">
-        <div class="input-grp"><label>DOC TYPE</label><select id="type" class="m-in"><option value="P">P (Passport)</option></select></div>
-        <div class="input-grp"><label>COUNTRY CODE</label><input type="text" id="country" class="m-in" placeholder="ETH" maxlength="3"></div>
-        <div class="input-grp full"><label>PASSPORT NUMBER</label><input type="text" id="passport" class="m-in" placeholder="EQ1827018" maxlength="9"></div>
-        <div class="input-grp"><label>SURNAME</label><input type="text" id="surname" class="m-in" placeholder="SHIFERAW"></div>
-        <div class="input-grp"><label>GIVEN NAMES</label><input type="text" id="given" class="m-in" placeholder="TSEGAW"></div>
-        <div class="input-grp"><label>GENDER</label><select id="sex" class="m-in"><option value="M">Male (M)</option><option value="F">Female (F)</option></select></div>
-        <div class="input-grp"><label>DOB (YYMMDD)</label><input type="text" id="dob" class="m-in" maxlength="6" placeholder="971121"></div>
-        <div class="input-grp full"><label>EXPIRY (YYMMDD)</label><input type="text" id="exp" class="m-in" maxlength="6" placeholder="300115"></div>
+        <div class="input-box">
+            <label>Surname</label>
+            <input type="text" id="surname" placeholder="KHAN" oninput="updateMRZ()">
+        </div>
+        <div class="input-box">
+            <label>Given Names</label>
+            <input type="text" id="givenName" placeholder="AYUB ALI" oninput="updateMRZ()">
+        </div>
+        <div class="input-box">
+            <label>Gender</label>
+            <select id="gender" onchange="updateMRZ()">
+                <option value="M">Male</option>
+                <option value="F">Female</option>
+            </select>
+        </div>
+
+        <div class="input-box">
+            <label>DOB (YYMMDD)</label>
+            <input type="text" id="dob" placeholder="990322" maxlength="6" oninput="updateMRZ()">
+        </div>
+        <div class="input-box">
+            <label>Expiry (YYMMDD)</label>
+            <input type="text" id="expiry" placeholder="350806" maxlength="6" oninput="updateMRZ()">
+        </div>
+        <div class="input-box">
+            <label>Personal ID / Optional</label>
+            <input type="text" id="personalId" placeholder="9152385414" oninput="updateMRZ()">
+        </div>
     </div>
 
-    <div class="output-box" id="result">Output will appear here..</div>
-    <button id="copy">COPY RESULT</button>
-    <div class="footer">Developed By: <b>Ariful</b> | +8801981071493</div>
+    <div class="mrz-display" id="mrzOutput">
+        <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<br>
+        <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    </div>
+
+    <div class="button-group">
+        <button class="btn-copy" onclick="copyMRZ()">Copy Result</button>
+        <button class="btn-reset" onclick="location.reload()">Reset</button>
+    </div>
+
+    <footer>Developed by Ariful | WhatsApp: +8801981071493</footer>
 </div>
 
 <script>
-    // ICAO Check Digit Algorithm (7-3-1 Weighting)
-    function getCheckDigit(str) {
-        const chars = "0123456789<ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    function calculateCheckDigit(data) {
         const weights = [7, 3, 1];
         let sum = 0;
-        for (let i = 0; i < str.length; i++) {
-            let val = chars.indexOf(str[i]);
-            if (val === -1) val = 0;
-            sum += val * weights[i % 3];
+        for (let i = 0; i < data.length; i++) {
+            let char = data[i];
+            let value;
+            if (/[0-9]/.test(char)) value = parseInt(char);
+            else if (/[A-Z]/.test(char)) value = char.charCodeAt(0) - 55;
+            else value = 0;
+            sum += value * weights[i % 3];
         }
         return sum % 10;
     }
 
-    const inputs = document.querySelectorAll('.m-in');
-    inputs.forEach(el => el.addEventListener('input', () => {
-        const type = document.getElementById('type').value;
-        const country = document.getElementById('country').value.toUpperCase().padEnd(3, '<').substring(0,3);
-        const pass = document.getElementById('passport').value.toUpperCase().padEnd(9, '<').substring(0,9);
-        const sur = document.getElementById('surname').value.toUpperCase().replace(/\s/g, '<');
-        const giv = document.getElementById('given').value.toUpperCase().replace(/\s/g, '<');
-        const dob = document.getElementById('dob').value.padEnd(6, '<').substring(0,6);
-        const sex = document.getElementById('sex').value.substring(0,1);
-        const exp = document.getElementById('exp').value.padEnd(6, '<').substring(0,6);
-
-        // Calculate Check Digits
-        const c1 = getCheckDigit(pass);
-        const c2 = getCheckDigit(dob);
-        const c3 = getCheckDigit(exp);
+    function updateMRZ() {
+        const type = document.getElementById('docType').value.toUpperCase() || 'P';
+        const country = (document.getElementById('countryCode').value.toUpperCase() || '<<<').padEnd(3, '<');
+        const surname = document.getElementById('surname').value.toUpperCase().replace(/\s+/g, '<');
+        const givenName = document.getElementById('givenName').value.toUpperCase().replace(/\s+/g, '<');
         
-        // Final Global Check Digit (Passport + Dob + Exp)
-        const finalCheckStr = pass + c1 + dob + c2 + exp + c3;
-        const cFinal = getCheckDigit(finalCheckStr);
+        const pNo = (document.getElementById('passportNo').value.toUpperCase() || '').padEnd(9, '<').substring(0,9);
+        const dob = document.getElementById('dob').value || '<<<<<<';
+        const sex = document.getElementById('gender').value;
+        const exp = document.getElementById('expiry').value || '<<<<<<';
+        const pId = (document.getElementById('personalId').value.toUpperCase() || '').replace(/\s+/g, '').padEnd(14, '<').substring(0,14);
 
         // Line 1
-        let names = (sur + "<<" + giv).padEnd(39, '<').substring(0, 39);
-        let line1 = ${type}<${country}${names};
+        let line1 = type + "<" + country + surname + "<<" + givenName;
+        line1 = line1.padEnd(44, '<').substring(0, 44);
+
+        // Check Digits
+        const pNoDigit = pNo.includes('<') ? '<' : calculateCheckDigit(pNo);
+        const dobDigit = dob.includes('<') ? '<' : calculateCheckDigit(dob);
+        const expDigit = exp.includes('<') ? '<' : calculateCheckDigit(exp);
+        const pIdDigit = pId.includes('<') ? '<' : calculateCheckDigit(pId);
+
+        // Composite Check Digit (Final Number)
+        let compositeSource = pNo + pNoDigit + dob + dobDigit + exp + expDigit + pId + pIdDigit;
+        const finalDigit = compositeSource.includes('<') ? '<' : calculateCheckDigit(compositeSource);
 
         // Line 2
-        let line2 = ${pass}${c1}${country}${dob}${c2}${sex}${exp}${c3}${"<<<<<<<<<<<<<<<"}${cFinal};
+        let line2 = pNo + pNoDigit + country + dob + dobDigit + sex + exp + expDigit + pId + pIdDigit + finalDigit;
+        line2 = line2.padEnd(44, '<').substring(0, 44);
 
-        document.getElementById('result').innerHTML = line1 + "<br>" + line2.substring(0,44);
-    }));
+        document.getElementById('mrzOutput').innerHTML = line1 + "<br>" + line2;
+    }
 
-    document.getElementById('copy').addEventListener('click', () => {
-        navigator.clipboard.writeText(document.getElementById('result').innerText);
-        alert("Copied!");
-    });
+    function copyMRZ() {
+        const text = document.getElementById('mrzOutput').innerText;
+        navigator.clipboard.writeText(text);
+        alert("MRZ Copied Successfully!");
+    }
 </script>
+
 </body>
 </html>

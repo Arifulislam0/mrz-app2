@@ -12,7 +12,7 @@
         .grid-container { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; text-align: left; margin-bottom: 30px; }
         .input-box label { display: block; font-size: 11px; font-weight: bold; color: #666; margin-bottom: 5px; text-transform: uppercase; }
         input, select { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 5px; background: #fdfdfd; font-size: 14px; box-sizing: border-box; text-transform: uppercase; }
-        .mrz-display { background: #0b0f19; color: #4ade80; padding: 25px; border-radius: 10px; font-family: 'Courier New', Courier, monospace; font-size: 1.3rem; letter-spacing: 3px; line-height: 1.8; margin-bottom: 20px; word-break: break-all; white-space: pre-wrap; text-align: left; border: 2px solid #1e293b; }
+        .mrz-display { background: #0b0f19; color: #4ade80; padding: 25px; border-radius: 10px; font-family: 'Courier New', Courier, monospace; font-size: 1.3rem; letter-spacing: 3px; line-height: 1.8; margin-bottom: 20px; word-break: break-all; white-space: pre-wrap; text-align: left; min-height: 80px; }
         .button-group { display: flex; gap: 15px; }
         button { flex: 1; padding: 15px; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; text-transform: uppercase; font-size: 16px; }
         .btn-copy { background-color: #28a745; color: white; }
@@ -27,11 +27,12 @@
     <div class="contact">WhatsApp: +8801981071493</div>
     
     <div class="grid-container">
-        <div class="input-box"><label>Doc Type</label><input type="text" id="docType" value="P" maxlength="1"></div>
-        <div class="input-box"><label>Country Code</label><input type="text" id="countryCode" placeholder="BGD" maxlength="3"></div>
-        <div class="input-box"><label>Passport No</label><input type="text" id="passportNo" placeholder="AP0698574" oninput="updateMRZ()"></div>
-        <div class="input-box"><label>Surname</label><input type="text" id="surname" placeholder="AMINUL" oninput="updateMRZ()"></div>
-        <div class="input-box"><label>Given Names</label><input type="text" id="givenName" placeholder="MD HASAN" oninput="updateMRZ()"></div>
+        <div class="input-box"><label>Doc Type</label><input type="text" id="docType" value="P" maxlength="1" onkeyup="updateMRZ()"></div>
+        <div class="input-box"><label>Country Code</label><input type="text" id="countryCode" placeholder="BGD" maxlength="3" onkeyup="updateMRZ()"></div>
+        <div class="input-box"><label>Passport No</label><input type="text" id="passportNo" placeholder="EP0937651" maxlength="9" onkeyup="updateMRZ()"></div>
+        
+        <div class="input-box"><label>Surname</label><input type="text" id="surname" placeholder="KHAN" onkeyup="updateMRZ()"></div>
+        <div class="input-box"><label>Given Names</label><input type="text" id="givenName" placeholder="AYUB ALI" onkeyup="updateMRZ()"></div>
         <div class="input-box">
             <label>Gender</label>
             <select id="gender" onchange="updateMRZ()">
@@ -39,17 +40,17 @@
                 <option value="F">Female</option>
             </select>
         </div>
-        <div class="input-box"><label>DOB (YYMMDD)</label><input type="text" id="dob" placeholder="010603" maxlength="6" oninput="updateMRZ()"></div>
-        <div class="input-box"><label>Expiry (YYMMDD)</label><input type="text" id="expiry" placeholder="300607" maxlength="6" oninput="updateMRZ()"></div>
-        <div class="input-box"><label>Personal ID / Optional</label><input type="text" id="personalId" placeholder="142576" oninput="updateMRZ()"></div>
+
+        <div class="input-box"><label>DOB (YYMMDD)</label><input type="text" id="dob" placeholder="990322" maxlength="6" onkeyup="updateMRZ()"></div>
+        <div class="input-box"><label>Expiry (YYMMDD)</label><input type="text" id="expiry" placeholder="350806" maxlength="6" onkeyup="updateMRZ()"></div>
+        <div class="input-box"><label>Personal ID / Optional</label><input type="text" id="personalId" placeholder="9152385414" onkeyup="updateMRZ()"></div>
     </div>
 
-    <div class="mrz-display" id="mrzOutput">P<BGD<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<</div>
+    <div class="mrz-display" id="mrzOutput">নির্ভুল MRZ এখানে দেখা যাবে...</div>
 
     <div class="button-group">
         <button class="btn-copy" onclick="copyMRZ()">Copy Result</button>
-        <button class="btn-reset" onclick="location.reload()">Reset</button>
+        <button class="btn-reset" onclick="resetForm()">Reset</button>
     </div>
 
     <footer>Developed by Ariful | WhatsApp: +8801981071493</footer>
@@ -73,29 +74,29 @@
     function updateMRZ() {
         const type = document.getElementById('docType').value.toUpperCase() || 'P';
         const country = (document.getElementById('countryCode').value.toUpperCase() || 'BGD').padEnd(3, '<');
-        const surname = document.getElementById('surname').value.toUpperCase().replace(/\s+/g, '<');
-        const givenName = document.getElementById('givenName').value.toUpperCase().replace(/\s+/g, '<');
-        const pNo = (document.getElementById('passportNo').value.toUpperCase() || '').padEnd(9, '<').substring(0,9);
-        const dob = document.getElementById('dob').value || '000000';
+        const surname = document.getElementById('surname').value.toUpperCase().trim().replace(/\s+/g, '<');
+        const givenName = document.getElementById('givenName').value.toUpperCase().trim().replace(/\s+/g, '<');
+        const pNo = (document.getElementById('passportNo').value.toUpperCase().trim() || '').padEnd(9, '<').substring(0,9);
+        const dob = document.getElementById('dob').value.trim() || '000000';
         const sex = document.getElementById('gender').value;
-        const exp = document.getElementById('expiry').value || '000000';
-        const pId = (document.getElementById('personalId').value.toUpperCase() || '').replace(/\s+/g, '').padEnd(14, '<').substring(0,14);
+        const exp = document.getElementById('expiry').value.trim() || '000000';
+        const pId = (document.getElementById('personalId').value.toUpperCase().trim() || '').replace(/\s+/g, '').padEnd(14, '<').substring(0,14);
 
-        // Line 1 Generation
+        // Line 1
         let line1 = type + "<" + country + surname + "<<" + givenName;
         line1 = line1.padEnd(44, '<').substring(0, 44);
 
-        // Check Digits Generation
+        // Check Digits
         const pNoDigit = pNo.includes('<') ? '0' : calculateCheckDigit(pNo);
         const dobDigit = dob.includes('<') ? '0' : calculateCheckDigit(dob);
         const expDigit = exp.includes('<') ? '0' : calculateCheckDigit(exp);
         const pIdDigit = calculateCheckDigit(pId);
 
-        // Final Composite Digit
+        // Composite Final Digit
         const compositeSource = pNo + pNoDigit + dob + dobDigit + exp + expDigit + pId + pIdDigit;
         const finalDigit = calculateCheckDigit(compositeSource);
 
-        // Line 2 Generation
+        // Line 2
         let line2 = pNo + pNoDigit + country + dob + dobDigit + sex + exp + expDigit + pId + pIdDigit + finalDigit;
         line2 = line2.padEnd(44, '<').substring(0, 44);
 
@@ -104,7 +105,13 @@
 
     function copyMRZ() {
         const text = document.getElementById('mrzOutput').innerText;
-        navigator.clipboard.writeText(text).then(() => alert("MRZ Copied!"));
+        if(text.length < 10) return;
+        navigator.clipboard.writeText(text).then(() => alert("MRZ কপি হয়েছে!"));
+    }
+
+    function resetForm() {
+        document.querySelectorAll('input').forEach(i => i.value = (i.id === 'docType' ? 'P' : ''));
+        document.getElementById('mrzOutput').innerText = "নির্ভুল MRZ এখানে দেখা যাবে...";
     }
 </script>
 

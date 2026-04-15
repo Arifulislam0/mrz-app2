@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ariful Universal MRZ Generator</title>
+    <title>Ariful Universal MRZ Generator - Auto Update</title>
     <style>
-        /* CSS Section: ইন্টারফেস ডিজাইন */
         body { 
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
             background-color: #f4f7f9; 
@@ -36,7 +35,7 @@
             color: #d93025;
             padding: 8px;
             border-radius: 5px;
-            font-size: 12px;
+            font-size: 11px;
             font-weight: bold;
             margin-bottom: 20px;
             border: 1px solid #fadbd8;
@@ -48,7 +47,7 @@
             text-align: left; 
         }
         label { 
-            font-size: 11px; 
+            font-size: 10px; 
             font-weight: 700; 
             color: #5f6368; 
             display: block; 
@@ -61,11 +60,9 @@
             border: 1px solid #dadce0; 
             border-radius: 6px; 
             box-sizing: border-box; 
-            font-size: 14px;
+            font-size: 13px;
             text-transform: uppercase;
-            transition: 0.3s;
         }
-        input:focus { border-color: #1a73e8; outline: none; box-shadow: 0 0 5px rgba(26,115,232,0.2); }
         .full-width { grid-column: span 2; }
         
         #output { 
@@ -75,13 +72,14 @@
             padding: 20px; 
             border-radius: 8px; 
             margin-top: 20px; 
-            font-size: 16px; 
-            letter-spacing: 2px;
+            font-size: 15px; 
+            letter-spacing: 1px;
             font-weight: bold;
             text-align: left;
             border-left: 5px solid #1a73e8;
             white-space: pre-wrap;
             word-break: break-all;
+            min-height: 40px;
         }
         
         .btn-group { display: flex; gap: 10px; margin-top: 20px; }
@@ -94,16 +92,13 @@
             font-weight: bold; 
             font-size: 14px;
             color: white; 
-            transition: 0.2s;
         }
-        .gen-btn { background: #1a73e8; }
-        .gen-btn:hover { background: #1557b0; }
-        .copy-btn { background: #34a853; }
+        .copy-btn { background: #34a853; width: 100%; }
         .copy-btn:hover { background: #2d8a46; }
         
         .footer { 
             margin-top: 20px; 
-            font-size: 13px; 
+            font-size: 12px; 
             color: #70757a; 
             border-top: 1px solid #eee; 
             padding-top: 15px;
@@ -120,30 +115,30 @@
     <div class="grid">
         <div>
             <label>DOC TYPE</label>
-            <select id="docType">
+            <select id="docType" onchange="generateMRZ()">
                 <option value="P">P (Standard Passport)</option>
                 <option value="PM">PM (Official/Diplomatic)</option>
             </select>
         </div>
         <div>
             <label>COUNTRY CODE (ISO)</label>
-            <input type="text" id="country" placeholder="ETH" maxlength="3">
+            <input type="text" id="country" placeholder="BGD" maxlength="3" oninput="generateMRZ()">
         </div>
         <div class="full-width">
             <label>PASSPORT NUMBER</label>
-            <input type="text" id="passNum" placeholder="EQ1827018">
+            <input type="text" id="passNum" placeholder="EG0654793" oninput="generateMRZ()">
         </div>
         <div>
             <label>SURNAME (LAST NAME)</label>
-            <input type="text" id="surname" placeholder="SHIFERAW">
+            <input type="text" id="surname" placeholder="ISLAM" oninput="generateMRZ()">
         </div>
         <div>
             <label>GIVEN NAMES</label>
-            <input type="text" id="givenNames" placeholder="TSEGAW">
+            <input type="text" id="givenNames" placeholder="ARIFUL" oninput="generateMRZ()">
         </div>
         <div>
             <label>GENDER</label>
-            <select id="gender">
+            <select id="gender" onchange="generateMRZ()">
                 <option value="M">MALE (M)</option>
                 <option value="F">FEMALE (F)</option>
                 <option value="X">OTHER (X)</option>
@@ -151,22 +146,21 @@
         </div>
         <div>
             <label>DATE OF BIRTH (YYMMDD)</label>
-            <input type="text" id="dob" placeholder="971121" maxlength="6">
+            <input type="text" id="dob" placeholder="970322" maxlength="6" oninput="generateMRZ()">
         </div>
         <div>
             <label>EXPIRY DATE (YYMMDD)</label>
-            <input type="text" id="expiry" placeholder="300115" maxlength="6">
+            <input type="text" id="expiry" placeholder="330501" maxlength="6" oninput="generateMRZ()">
         </div>
         <div class="full-width">
             <label>PERSONAL NUMBER / OPTIONAL</label>
-            <input type="text" id="personalNum" placeholder="<<<<<<<<<<<<<" maxlength="14">
+            <input type="text" id="personalNum" placeholder="<<<<<<<<<<<<<" maxlength="14" oninput="generateMRZ()">
         </div>
     </div>
 
-    <div id="output">Output will appear here..</div>
+    <div id="output">P<BGD<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<</div>
 
     <div class="btn-group">
-        <button class="gen-btn" onclick="generateMRZ()">GENERATE MRZ</button>
         <button class="copy-btn" onclick="copyResult()">COPY RESULT</button>
     </div>
 
@@ -174,21 +168,15 @@
 </div>
 
 <script>
-    /* JavaScript Section: ICAO 9303 Logic */
-
     function calculateCheckDigit(data) {
         const weights = [7, 3, 1];
         let sum = 0;
         for (let i = 0; i < data.length; i++) {
             let char = data[i];
             let val = 0;
-            if (char >= '0' && char <= '9') {
-                val = parseInt(char);
-            } else if (char >= 'A' && char <= 'Z') {
-                val = char.charCodeAt(0) - 55;
-            } else if (char === '<') {
-                val = 0;
-            }
+            if (char >= '0' && char <= '9') val = parseInt(char);
+            else if (char >= 'A' && char <= 'Z') val = char.charCodeAt(0) - 55;
+            else if (char === '<') val = 0;
             sum += val * weights[i % 3];
         }
         return sum % 10;
@@ -201,7 +189,7 @@
     }
 
     function generateMRZ() {
-        const docTypeInput = document.getElementById('docType').value;
+        const docType = document.getElementById('docType').value;
         const country = fill(document.getElementById('country').value, 3);
         const passNum = fill(document.getElementById('passNum').value, 9);
         const surname = document.getElementById('surname').value.toUpperCase().trim().replace(/\s+/g, '<');
@@ -211,22 +199,16 @@
         const gender = document.getElementById('gender').value.charAt(0);
         const personalNum = fill(document.getElementById('personalNum').value, 14);
 
-        // Individual Check Digits
         const c1 = calculateCheckDigit(passNum);
         const c2 = calculateCheckDigit(dob);
         const c3 = calculateCheckDigit(expiry);
         const c4 = calculateCheckDigit(personalNum);
         
-        // Composite Check Digit (The Final Logic)
         const compositeData = passNum + c1 + dob + c2 + expiry + c3 + personalNum + c4;
         const c5 = calculateCheckDigit(compositeData);
 
-        // Line 1 Construction (P<USA[SURNAME]<<[GIVEN NAMES]...) Total 44 chars
         let nameField = fill(surname + '<<' + givenNames, 39);
-        const line1 = ${fill(docTypeInput, 2)}${country}${nameField};
-
-        // Line 2 Construction
-        // Format: [PassNum][C1][Country][DOB][C2][Gender][Expiry][C3][PersonalNum][C4][C5]
+        const line1 = ${fill(docType, 2)}${country}${nameField};
         const line2 = ${passNum}${c1}${country}${dob}${c2}${gender}${expiry}${c3}${personalNum}${c4}${c5};
 
         document.getElementById('output').innerText = line1 + '\n' + line2;
@@ -234,12 +216,13 @@
 
     function copyResult() {
         const text = document.getElementById('output').innerText;
-        if(text.includes("Output")) return alert("Please generate MRZ first!");
-        
         navigator.clipboard.writeText(text).then(() => {
-            alert("MRZ Copied Successfully!");
+            alert("MRZ Copied!");
         });
     }
+
+    // Initial call to show empty MRZ format
+    window.onload = generateMRZ;
 </script>
 
 </body>

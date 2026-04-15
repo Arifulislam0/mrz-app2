@@ -3,107 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ariful Universal MRZ Generator - Auto Update</title>
+    <title>Ariful Universal MRZ Generator</title>
     <style>
-        body { 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-            background-color: #f4f7f9; 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            min-height: 100vh; 
-            margin: 0;
-            padding: 10px;
-        }
-        .card { 
-            background: white; 
-            padding: 25px; 
-            border-radius: 15px; 
-            box-shadow: 0 8px 25px rgba(0,0,0,0.1); 
-            width: 100%; 
-            max-width: 450px; 
-            text-align: center; 
-        }
-        .header { 
-            color: #1a73e8; 
-            font-weight: bold; 
-            font-size: 22px; 
-            margin-bottom: 5px; 
-        }
-        .alert-text {
-            background: #fff5f5;
-            color: #d93025;
-            padding: 8px;
-            border-radius: 5px;
-            font-size: 11px;
-            font-weight: bold;
-            margin-bottom: 20px;
-            border: 1px solid #fadbd8;
-        }
-        .grid { 
-            display: grid; 
-            grid-template-columns: 1fr 1fr; 
-            gap: 15px; 
-            text-align: left; 
-        }
-        label { 
-            font-size: 10px; 
-            font-weight: 700; 
-            color: #5f6368; 
-            display: block; 
-            margin-bottom: 4px;
-            text-transform: uppercase;
-        }
-        input, select { 
-            width: 100%; 
-            padding: 10px; 
-            border: 1px solid #dadce0; 
-            border-radius: 6px; 
-            box-sizing: border-box; 
-            font-size: 13px;
-            text-transform: uppercase;
-        }
+        body { font-family: sans-serif; background-color: #f4f7f9; display: flex; justify-content: center; padding: 20px; }
+        .card { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); width: 100%; max-width: 450px; text-align: center; }
+        .header { color: #1a73e8; font-weight: bold; font-size: 20px; margin-bottom: 5px; }
+        .alert-text { color: red; font-size: 11px; font-weight: bold; margin-bottom: 15px; }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; text-align: left; }
+        label { font-size: 10px; font-weight: bold; color: #555; display: block; margin-bottom: 3px; }
+        input, select { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; text-transform: uppercase; font-size: 13px; }
         .full-width { grid-column: span 2; }
-        
         #output { 
-            background: #1e1e1e; 
-            color: #00ff41; 
-            font-family: 'Courier New', Courier, monospace; 
-            padding: 20px; 
-            border-radius: 8px; 
-            margin-top: 20px; 
-            font-size: 15px; 
-            letter-spacing: 1px;
-            font-weight: bold;
-            text-align: left;
-            border-left: 5px solid #1a73e8;
-            white-space: pre-wrap;
-            word-break: break-all;
-            min-height: 40px;
+            background: #000; color: #0f0; font-family: monospace; padding: 15px; border-radius: 5px; 
+            margin-top: 15px; font-size: 15px; text-align: left; white-space: pre-wrap; word-break: break-all;
+            min-height: 40px; line-height: 1.2; letter-spacing: 1px;
         }
-        
-        .btn-group { display: flex; gap: 10px; margin-top: 20px; }
-        button { 
-            flex: 1; 
-            padding: 14px; 
-            border: none; 
-            border-radius: 8px; 
-            cursor: pointer; 
-            font-weight: bold; 
-            font-size: 14px;
-            color: white; 
+        .copy-btn { 
+            width: 100%; background: #28a745; color: white; border: none; padding: 12px; 
+            border-radius: 5px; margin-top: 15px; cursor: pointer; font-weight: bold; 
         }
-        .copy-btn { background: #34a853; width: 100%; }
-        .copy-btn:hover { background: #2d8a46; }
-        
-        .footer { 
-            margin-top: 20px; 
-            font-size: 12px; 
-            color: #70757a; 
-            border-top: 1px solid #eee; 
-            padding-top: 15px;
-        }
-        .footer b { color: #1a73e8; }
+        .footer { margin-top: 15px; font-size: 12px; color: #666; border-top: 1px solid #eee; padding-top: 10px; }
     </style>
 </head>
 <body>
@@ -115,59 +34,66 @@
     <div class="grid">
         <div>
             <label>DOC TYPE</label>
-            <select id="docType" onchange="generateMRZ()">
+            <select id="docType">
                 <option value="P">P (Standard Passport)</option>
                 <option value="PM">PM (Official/Diplomatic)</option>
             </select>
         </div>
         <div>
             <label>COUNTRY CODE (ISO)</label>
-            <input type="text" id="country" placeholder="BGD" maxlength="3" oninput="generateMRZ()">
+            <input type="text" id="country" placeholder="BGD" maxlength="3">
         </div>
         <div class="full-width">
             <label>PASSPORT NUMBER</label>
-            <input type="text" id="passNum" placeholder="EG0654793" oninput="generateMRZ()">
+            <input type="text" id="passNum" placeholder="EG0654793">
         </div>
         <div>
-            <label>SURNAME (LAST NAME)</label>
-            <input type="text" id="surname" placeholder="ISLAM" oninput="generateMRZ()">
+            <label>SURNAME</label>
+            <input type="text" id="surname" placeholder="ISLAM">
         </div>
         <div>
             <label>GIVEN NAMES</label>
-            <input type="text" id="givenNames" placeholder="ARIFUL" oninput="generateMRZ()">
+            <input type="text" id="givenNames" placeholder="ARIFUL">
         </div>
         <div>
             <label>GENDER</label>
-            <select id="gender" onchange="generateMRZ()">
+            <select id="gender">
                 <option value="M">MALE (M)</option>
                 <option value="F">FEMALE (F)</option>
-                <option value="X">OTHER (X)</option>
             </select>
         </div>
         <div>
             <label>DATE OF BIRTH (YYMMDD)</label>
-            <input type="text" id="dob" placeholder="970322" maxlength="6" oninput="generateMRZ()">
+            <input type="text" id="dob" placeholder="970322" maxlength="6">
         </div>
         <div>
             <label>EXPIRY DATE (YYMMDD)</label>
-            <input type="text" id="expiry" placeholder="330501" maxlength="6" oninput="generateMRZ()">
+            <input type="text" id="expiry" placeholder="330501" maxlength="6">
         </div>
         <div class="full-width">
             <label>PERSONAL NUMBER / OPTIONAL</label>
-            <input type="text" id="personalNum" placeholder="<<<<<<<<<<<<<" maxlength="14" oninput="generateMRZ()">
+            <input type="text" id="personalNum" placeholder="<<<<<<<<<<<<<" maxlength="14">
         </div>
     </div>
 
-    <div id="output">P<BGD<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<</div>
+    <div id="output">Typing...</div>
 
-    <div class="btn-group">
-        <button class="copy-btn" onclick="copyResult()">COPY RESULT</button>
-    </div>
+    <button class="copy-btn" onclick="copyResult()">COPY RESULT</button>
 
     <div class="footer">Developed By: <b>Ariful</b> | WhatsApp: +8801981071493</div>
 </div>
 
 <script>
+    const inputs = ['docType', 'country', 'passNum', 'surname', 'givenNames', 'gender', 'dob', 'expiry', 'personalNum'];
+    
+    // প্রতিটি ইনপুট বক্সে ইভেন্ট লিসেনার যোগ করা
+    inputs.forEach(id => {
+        document.getElementById(id).addEventListener('input', generateMRZ);
+        if(document.getElementById(id).tagName === 'SELECT') {
+            document.getElementById(id).addEventListener('change', generateMRZ);
+        }
+    });
+
     function calculateCheckDigit(data) {
         const weights = [7, 3, 1];
         let sum = 0;
@@ -189,40 +115,42 @@
     }
 
     function generateMRZ() {
-        const docType = document.getElementById('docType').value;
-        const country = fill(document.getElementById('country').value, 3);
-        const passNum = fill(document.getElementById('passNum').value, 9);
-        const surname = document.getElementById('surname').value.toUpperCase().trim().replace(/\s+/g, '<');
-        const givenNames = document.getElementById('givenNames').value.toUpperCase().trim().replace(/\s+/g, '<');
-        const dob = fill(document.getElementById('dob').value, 6);
-        const expiry = fill(document.getElementById('expiry').value, 6);
-        const gender = document.getElementById('gender').value.charAt(0);
-        const personalNum = fill(document.getElementById('personalNum').value, 14);
+        try {
+            const docType = document.getElementById('docType').value;
+            const country = fill(document.getElementById('country').value, 3);
+            const passNum = fill(document.getElementById('passNum').value, 9);
+            const surname = document.getElementById('surname').value.toUpperCase().trim().replace(/\s+/g, '<');
+            const givenNames = document.getElementById('givenNames').value.toUpperCase().trim().replace(/\s+/g, '<');
+            const dob = fill(document.getElementById('dob').value, 6);
+            const expiry = fill(document.getElementById('expiry').value, 6);
+            const gender = document.getElementById('gender').value.charAt(0);
+            const personalNum = fill(document.getElementById('personalNum').value, 14);
 
-        const c1 = calculateCheckDigit(passNum);
-        const c2 = calculateCheckDigit(dob);
-        const c3 = calculateCheckDigit(expiry);
-        const c4 = calculateCheckDigit(personalNum);
-        
-        const compositeData = passNum + c1 + dob + c2 + expiry + c3 + personalNum + c4;
-        const c5 = calculateCheckDigit(compositeData);
+            const c1 = calculateCheckDigit(passNum);
+            const c2 = calculateCheckDigit(dob);
+            const c3 = calculateCheckDigit(expiry);
+            const c4 = calculateCheckDigit(personalNum);
+            
+            const compositeData = passNum + c1 + dob + c2 + expiry + c3 + personalNum + c4;
+            const c5 = calculateCheckDigit(compositeData);
 
-        let nameField = fill(surname + '<<' + givenNames, 39);
-        const line1 = ${fill(docType, 2)}${country}${nameField};
-        const line2 = ${passNum}${c1}${country}${dob}${c2}${gender}${expiry}${c3}${personalNum}${c4}${c5};
+            let nameField = fill(surname + '<<' + givenNames, 39);
+            const line1 = ${fill(docType, 2)}${country}${nameField};
+            const line2 = ${passNum}${c1}${country}${dob}${c2}${gender}${expiry}${c3}${personalNum}${c4}${c5};
 
-        document.getElementById('output').innerText = line1 + '\n' + line2;
+            document.getElementById('output').innerText = line1 + '\n' + line2;
+        } catch (e) {
+            console.error(e);
+        }
     }
 
     function copyResult() {
         const text = document.getElementById('output').innerText;
-        navigator.clipboard.writeText(text).then(() => {
-            alert("MRZ Copied!");
-        });
+        navigator.clipboard.writeText(text).then(() => alert("MRZ Copied!"));
     }
 
-    // Initial call to show empty MRZ format
-    window.onload = generateMRZ;
+    // শুরুতে একবার রান হবে
+    generateMRZ();
 </script>
 
 </body>
